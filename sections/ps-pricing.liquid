@@ -1,0 +1,165 @@
+{% comment %}
+  PS Pricing — 5 tier cards in a gradient container + pay-as-you-go row + enterprise link.
+  Mirrors prime-products PricingSection.
+{% endcomment %}
+
+<section class="ps-root ps-pricing" id="pricing">
+  <div class="ps-pricing__inner">
+    <div class="ps-pricing__head" data-ps-reveal="fade">
+      <h2 class="ps-pricing__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="ps-pricing__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="ps-pricing__frame">
+      <div class="ps-pricing__grid" data-ps-stagger>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'tier' -%}
+            <div
+              class="ps-tier{% if block.settings.featured %} ps-tier--featured{% endif %}"
+              data-ps-reveal="fade-up"
+              {{ block.shopify_attributes }}>
+
+              <div class="ps-tier__body">
+                <div class="ps-tier__badge-row">
+                  {%- if block.settings.featured and section.settings.featured_badge_label != blank -%}
+                    <span class="ps-tier__badge">{{ section.settings.featured_badge_label }}</span>
+                  {%- endif -%}
+                </div>
+
+                <div class="ps-tier__price">
+                  <span class="ps-tier__price-value">{{ block.settings.price }}</span>
+                  {%- if block.settings.unit != blank -%}
+                    <span class="ps-tier__price-unit">{{ block.settings.unit }}</span>
+                  {%- endif -%}
+                </div>
+
+                <h3 class="ps-tier__name">{{ block.settings.name }}</h3>
+
+                {%- if block.settings.description != blank -%}
+                  <p class="ps-tier__desc">{{ block.settings.description }}</p>
+                {%- endif -%}
+
+                <div class="ps-tier__includes">
+                  {%- if block.settings.includes_heading != blank -%}
+                    <h4 class="ps-tier__includes-heading">{{ block.settings.includes_heading }}</h4>
+                  {%- endif -%}
+                  {%- if block.settings.feature_list != blank -%}
+                    <div class="ps-tier__features">{{ block.settings.feature_list }}</div>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              {%- if block.settings.cta_label != blank -%}
+                <div class="ps-tier__cta">
+                  <a href="{{ block.settings.cta_link | default: '#' }}" class="ps-tier__btn">
+                    {{ block.settings.cta_label }}
+                  </a>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- if section.settings.payg_title != blank -%}
+      <div class="ps-payg" data-ps-reveal="fade-up">
+        <div class="ps-payg__glow" aria-hidden="true"></div>
+        <div class="ps-payg__grid">
+          <div class="ps-payg__copy">
+            <h3 class="ps-payg__title">{{ section.settings.payg_title }}</h3>
+            {%- if section.settings.payg_description != blank -%}
+              <p class="ps-payg__desc">{{ section.settings.payg_description }}</p>
+            {%- endif -%}
+            <div class="ps-payg__price">
+              <span class="ps-payg__price-value">{{ section.settings.payg_price }}</span>
+              {%- if section.settings.payg_unit != blank -%}
+                <span class="ps-payg__price-unit">{{ section.settings.payg_unit }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+
+          {%- if section.settings.payg_bullets != blank -%}
+            <div class="ps-payg__bullets">{{ section.settings.payg_bullets }}</div>
+          {%- endif -%}
+
+          {%- if section.settings.payg_cta_label != blank -%}
+            <div class="ps-payg__cta">
+              {%- render 'ps-button',
+                label: section.settings.payg_cta_label,
+                href: section.settings.payg_cta_link,
+                variant: 'primary',
+                size: 'lg',
+                icon: 'arrow-right'
+              -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.enterprise_note != blank -%}
+      <div class="ps-pricing__enterprise" data-ps-reveal="fade">
+        <a href="{{ section.settings.enterprise_link | default: '#' }}" class="ps-pricing__enterprise-link">
+          {{ section.settings.enterprise_note }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Pricing",
+  "tag": "section",
+  "class": "ps-section ps-section--pricing",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text",     "id": "title",                "label": "Title",        "default": "Simple, usage-based pricing." },
+    { "type": "textarea", "id": "subtitle",             "label": "Subtitle",     "default": "Start small. Control exposure. Scale with real customer engagement." },
+    { "type": "text",     "id": "featured_badge_label", "label": "Featured tier badge", "default": "Most Popular" },
+
+    { "type": "header",   "content": "Pay-as-you-go" },
+    { "type": "text",     "id": "payg_title",        "label": "Title",       "default": "Not ready for a plan?" },
+    { "type": "textarea", "id": "payg_description",  "label": "Description", "default": "Start with pay-as-you-go and scale when you're ready." },
+    { "type": "richtext", "id": "payg_bullets",      "label": "Bullets",     "default": "<ul><li>No monthly commitment</li><li>Full Decision Engine access</li><li>Ideal for testing or low-volume usage</li></ul>" },
+    { "type": "text",     "id": "payg_price",        "label": "Price",       "default": "$0.50" },
+    { "type": "text",     "id": "payg_unit",         "label": "Unit",        "default": "/try-on" },
+    { "type": "text",     "id": "payg_cta_label",    "label": "CTA label",   "default": "Install on Shopify" },
+    { "type": "url",      "id": "payg_cta_link",     "label": "CTA link" },
+
+    { "type": "header",   "content": "Enterprise" },
+    { "type": "text",     "id": "enterprise_note",   "label": "Note",        "default": "Need higher volume, custom SLAs, or on-prem? Talk to Enterprise" },
+    { "type": "url",      "id": "enterprise_link",   "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Pricing tier",
+      "settings": [
+        { "type": "text",     "id": "name",             "label": "Name",        "default": "Starter" },
+        { "type": "text",     "id": "price",            "label": "Price",       "default": "$199" },
+        { "type": "text",     "id": "unit",             "label": "Unit",        "default": "/month" },
+        { "type": "textarea", "id": "description",      "label": "Description" },
+        { "type": "checkbox", "id": "featured",         "label": "Featured (highlighted)", "default": false },
+        { "type": "text",     "id": "includes_heading", "label": "Includes heading",       "default": "Starter includes:" },
+        { "type": "richtext", "id": "feature_list",     "label": "Features",    "default": "<ul><li>Feature one</li><li>Feature two</li></ul>" },
+        { "type": "text",     "id": "cta_label",        "label": "CTA label",   "default": "Install on Shopify" },
+        { "type": "url",      "id": "cta_link",         "label": "CTA link" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · Pricing",
+    "blocks": [
+      { "type": "tier", "settings": { "name": "Pilot",   "price": "Free",   "unit": "",       "description": "A controlled way to test the Decision Engine in a real environment.",                     "includes_heading": "Pilot includes:",                      "feature_list": "<ul><li>500 to 1,000 try-ons</li><li>Limited product selection</li><li>30 day access</li><li>Basic reporting</li><li>Usage controls</li></ul>", "cta_label": "Install on Shopify" } },
+      { "type": "tier", "settings": { "name": "Starter", "price": "$199",   "unit": "/month", "description": "For smaller brands and initial rollouts.",                                                    "includes_heading": "Starter includes:",                    "feature_list": "<ul><li>1,200 try-ons included</li><li>$0.40 per additional try-on</li><li>Full Decision Engine access</li><li>Usage controls</li><li>Email support</li></ul>", "cta_label": "Install on Shopify" } },
+      { "type": "tier", "settings": { "name": "Growth",  "price": "$299",   "unit": "/month", "description": "For growing brands looking to scale usage.", "featured": true,                               "includes_heading": "Everything in Starter, plus:",          "feature_list": "<ul><li>2,500 try-ons included</li><li>$0.35 per additional try-on</li><li>Full Decision Engine access</li><li>Advanced usage controls</li><li>Priority support</li></ul>", "cta_label": "Install on Shopify" } },
+      { "type": "tier", "settings": { "name": "Pro",     "price": "$499",   "unit": "/month", "description": "For brands with consistent customer engagement.",                                             "includes_heading": "Everything in Growth, plus:",           "feature_list": "<ul><li>5,000 try-ons included</li><li>$0.30 per additional try-on</li><li>Full Decision Engine access</li><li>Advanced analytics</li><li>Priority support</li></ul>", "cta_label": "Install on Shopify" } },
+      { "type": "tier", "settings": { "name": "Scale",   "price": "$1,499", "unit": "/month", "description": "For high-volume retailers and larger catalogs.",                                              "includes_heading": "Everything in Pro, plus:",              "feature_list": "<ul><li>20,000 try-ons included</li><li>$0.25 per additional try-on</li><li>Full Decision Engine access</li><li>Dedicated support</li><li>SLA options</li></ul>", "cta_label": "Contact Sales", "cta_link": "mailto:support@primestyleai.com" } }
+    ]
+  }]
+}
+{% endschema %}

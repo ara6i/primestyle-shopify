@@ -1,0 +1,44 @@
+{% comment %}
+  PS Languages — global section with stat number + language pills.
+{% endcomment %}
+
+<section class="ps-root ps-langs">
+  <div class="ps-langs__inner">
+    <div class="ps-langs__head" data-ps-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="ps-eyebrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          {{ section.settings.eyebrow }}
+        </span>
+      {%- endif -%}
+      <h2 class="ps-langs__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.body != blank -%}
+        <p class="ps-langs__body">{{ section.settings.body }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.languages != blank -%}
+      <div class="ps-langs__chips" data-ps-reveal="fade">
+        {%- assign langs = section.settings.languages | split: ',' -%}
+        {%- for lang in langs -%}
+          <span class="ps-lang-chip">{{ lang | strip }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Languages",
+  "tag": "section",
+  "class": "ps-section",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",   "label": "Eyebrow", "default": "Global" },
+    { "type": "text",     "id": "title",     "label": "Title",   "default": "10+ languages. Zero friction." },
+    { "type": "textarea", "id": "body",      "label": "Body",    "default": "Every label, question, and recommendation displays in your customer's preferred language — automatically. Sell internationally without barriers." },
+    { "type": "textarea", "id": "languages", "label": "Languages (comma separated)", "default": "English, Spanish, French, German, Italian, Portuguese, Arabic, Chinese, Japanese, Korean, Russian, + More" }
+  ],
+  "presets": [{ "name": "PS · Languages" }]
+}
+{% endschema %}

@@ -1,210 +1,180 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "ps_hero": {
+      "type": "ps-hero",
+      "settings": {
+        "eyebrow": "Shopify · Fashion",
+        "headline": "<p>The <em>Decision Engine</em><br>for fit.</p>",
+        "subhead": "Photo-based sizing · Virtual try-on · Trained on your Shopify size chart.",
+        "primary_label": "Install on Shopify",
+        "primary_link": "https://apps.shopify.com/primestyle",
+        "secondary_label": "See it in action",
+        "secondary_link": "/pages/demo-products",
+        "marquee_text": "T-Shirts · Dresses · Suits · Tuxedos · Jeans · Blouses · Jackets · Coats · Activewear · Swimwear · Skirts · Formal Wear · Plus Size · Pants · Shorts"
+      }
+    },
+    "ps_problem": {
+      "type": "ps-problem",
+      "settings": {
+        "eyebrow": "Returns",
+        "headline": "Wrong size. Lost margin.",
+        "body": "<p>Size returns are the biggest cost in online fashion. Shoppers guess. They order multiples. They send items back. PrimeStyle AI is designed to address this at the source.</p>",
+        "pullquote": "What if every shopper could see a size recommendation aligned to their measurements before they ever touched Add to Cart?",
+        "pullquote_footer": "That's what PrimeStyle AI helps with — reducing guesswork and helping minimize sizing uncertainty so shoppers can buy with more confidence."
+      }
+    },
+    "ps_shopify": {
+      "type": "ps-shopify-integration",
+      "settings": {
+        "eyebrow": "Built for Shopify",
+        "title": "Native Shopify app. Trained on your sizes.",
+        "body": "<p>Returns are the single largest cost in online apparel — and the merchants solving sizing at the product page are pulling decisively ahead. PrimeStyle AI is the native Shopify app that closes the gap: trained on your size chart, live on every product page, and purpose-built for the conversion economics of modern apparel retail.</p>",
+        "status_label": "",
+        "media_asset": "ps-shopify-demo.gif",
+        "primary_label": "Install on Shopify",
+        "primary_link": "https://apps.shopify.com/primestyle",
+        "secondary_label": "See it in action",
+        "secondary_link": "/pages/demo-products"
+      }
+    },
+    "ps_features": {
+      "type": "ps-features",
       "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Image banner",
-            "heading_size": "h0"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.",
-            "text_style": "body"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
+        "tab-1": { "type": "tab", "settings": { "tab_label": "Photo Sizing", "title": "AI Sizing by Photo",        "body": "One full-body photo. PrimeStyle extracts measurements and returns a recommended size from your Shopify catalog.",                   "fallback_asset": "ps-finalizing-pose.png" } },
+        "tab-2": { "type": "tab", "settings": { "tab_label": "Smart Sizing", "title": "Smart Size Recommendation", "body": "Height, weight, age, and body-specific questions — separate flows for men and women. Matched to your Shopify size chart.",           "fallback_asset": "ps-raw-01-sizing.jpg" } },
+        "tab-3": { "type": "tab", "settings": { "tab_label": "Try-On",       "title": "Virtual Try-On",            "body": "Once the size is found, shoppers see the garment on themselves — inside your Shopify product page.",                                    "fallback_asset": "ps-raw-06-tryon.jpg" } },
+        "tab-4": { "type": "tab", "settings": { "tab_label": "Your Charts",  "title": "Trained on Your Size Chart","body": "Upload a CSV in the Shopify admin. PrimeStyle learns your sizes and recommends fit based on your catalog. Not industry averages.", "fallback_asset": "ps-recommended-size.png" } }
       },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
+      "block_order": ["tab-1", "tab-2", "tab-3", "tab-4"],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "eyebrow": "What it does",
+        "title": "Four moves. One perfect fit."
       }
     },
-    "rich_text": {
-      "type": "rich-text",
+    "ps_sdk_demo": {
+      "type": "ps-sdk-demo",
       "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Talk about your brand",
-            "heading_size": "h1"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
-          }
-        }
+        "b-1":  { "type": "badge", "settings": { "flow": "1",   "text": "Works with any Shopify size chart" } },
+        "b-2":  { "type": "badge", "settings": { "flow": "1",   "text": "Separate flows for men and women" } },
+        "b-3":  { "type": "badge", "settings": { "flow": "1",   "text": "Reduced guesswork — matched to your Shopify catalog" } },
+        "b-4":  { "type": "badge", "settings": { "flow": "2",   "text": "Illustrated options — designed to reduce guesswork" } },
+        "b-5":  { "type": "badge", "settings": { "flow": "2",   "text": "Works for menswear and womenswear" } },
+        "b-6":  { "type": "badge", "settings": { "flow": "3",   "text": "One clear recommendation per item" } },
+        "b-7":  { "type": "badge", "settings": { "flow": "3",   "text": "Matched to your Shopify catalog, not industry averages" } },
+        "b-8":  { "type": "badge", "settings": { "flow": "vto", "text": "One photo — results in seconds" } },
+        "b-9":  { "type": "badge", "settings": { "flow": "vto", "text": "Works on any Shopify product page" } },
+        "b-10": { "type": "badge", "settings": { "flow": "vto", "text": "No app download required" } }
       },
-      "block_order": [
-        "heading",
-        "text"
-      ],
+      "block_order": ["b-1","b-2","b-3","b-4","b-5","b-6","b-7","b-8","b-9","b-10"],
       "settings": {
-        "color_scheme": "scheme-1",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 0
+        "eyebrow": "Live in your store",
+        "title": "From guessing to knowing — in seconds.",
+        "subtitle": "Two AI flows. One seamless experience. Built for Shopify.",
+        "flow1_tag": "Smart Size Finder",
+        "flow1_title": "A size recommendation. In seconds.",
+        "flow1_body": "Shoppers enter height, weight, and a few body-type questions. The Decision Engine matches them to your Shopify size chart — not industry averages — and returns a recommended size in seconds.",
+        "step2_tag": "Body Shape",
+        "step2_title": "Tell us your shape.",
+        "step2_body": "A few visual questions — narrow, average, or broad. Our engine uses body shape to fine-tune fit, not just raw measurements.",
+        "step3_tag": "Perfect Fit",
+        "step3_title": "A size aligned to your catalog.",
+        "step3_body": "The Decision Engine returns a recommendation for every piece — jacket, vest, trousers — matched to your Shopify size chart.",
+        "flow2_tag": "Virtual Try-On",
+        "flow2_title": "See yourself in it.",
+        "flow2_body": "Once the size is found, shoppers upload one photo. Our visual AI generates an illustrative preview of them wearing the garment — inside your Shopify product page, before they ever add to cart.",
+        "flow2_ai_tag": "Powered by PrimeStyle Decision Engine"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "ps_scale": {
+      "type": "ps-scale",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "show_view_all": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "2",
-        "padding_top": 28,
-        "padding_bottom": 36
+        "eyebrow": "Built right",
+        "title": "Built for production environments.",
+        "customize_title": "Fully customizable",
+        "customize_body": "Colors, layout, widget placement, flow.",
+        "devices_title": "Mobile & desktop",
+        "devices_body": "Same experience, every device.",
+        "languages_title": "10+ languages",
+        "languages_body": "Sell globally without friction.",
+        "flag_codes": "en,es,fr,de,it,pt,ar,zh,ja,ko,ru",
+        "garments_title": "Any garment",
+        "garments_body": "Menswear, womenswear, suits, denim, outerwear, activewear, plus size.",
+        "garment_files": "ps-garment-tshirt.png,ps-garment-dress.png,ps-garment-suit.png,ps-garment-jeans.png,ps-garment-jacket.png,ps-garment-coat.png"
       }
     },
-    "collage": {
-      "type": "collage",
+    "ps_garments": {
+      "type": "ps-garments",
       "blocks": {
-        "collection-0": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "product": {
-          "type": "product",
-          "settings": {
-            "product": "",
-            "second_image": false
-          }
-        },
-        "collection-1": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        }
+        "g-01": { "type": "garment", "settings": { "label": "T-Shirts",    "asset_file": "ps-garment-tshirt.png" } },
+        "g-02": { "type": "garment", "settings": { "label": "Dresses",     "asset_file": "ps-garment-dress.png" } },
+        "g-03": { "type": "garment", "settings": { "label": "Suits",       "asset_file": "ps-garment-suit.png" } },
+        "g-04": { "type": "garment", "settings": { "label": "Tuxedos",     "asset_file": "ps-garment-tuxedo.png" } },
+        "g-05": { "type": "garment", "settings": { "label": "Jeans",       "asset_file": "ps-garment-jeans.png" } },
+        "g-06": { "type": "garment", "settings": { "label": "Blouses",     "asset_file": "ps-garment-blouse.png" } },
+        "g-07": { "type": "garment", "settings": { "label": "Jackets",     "asset_file": "ps-garment-jacket.png" } },
+        "g-08": { "type": "garment", "settings": { "label": "Coats",       "asset_file": "ps-garment-coat.png" } },
+        "g-09": { "type": "garment", "settings": { "label": "Activewear",  "asset_file": "ps-garment-activewear.png" } },
+        "g-10": { "type": "garment", "settings": { "label": "Swimwear",    "asset_file": "ps-garment-swimwear.png" } },
+        "g-11": { "type": "garment", "settings": { "label": "Skirts",      "asset_file": "ps-garment-skirt.png" } },
+        "g-12": { "type": "garment", "settings": { "label": "Formal Wear", "asset_file": "ps-garment-formal.png" } },
+        "g-13": { "type": "garment", "settings": { "label": "Plus Size",   "asset_file": "ps-garment-plussize.png" } },
+        "g-14": { "type": "garment", "settings": { "label": "Pants",       "asset_file": "ps-garment-pants.png" } },
+        "g-15": { "type": "garment", "settings": { "label": "Shorts",      "asset_file": "ps-garment-shorts.png" } }
       },
-      "block_order": [
-        "collection-0",
-        "product",
-        "collection-1"
-      ],
+      "block_order": ["g-01","g-02","g-03","g-04","g-05","g-06","g-07","g-08","g-09","g-10","g-11","g-12","g-13","g-14","g-15"],
       "settings": {
-        "heading": "Multimedia collage",
-        "heading_size": "h2",
-        "desktop_layout": "left",
-        "mobile_layout": "collage",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "eyebrow": "Any product",
+        "title": "Works with every garment.",
+        "subtitle": "Menswear, womenswear, denim, outerwear, activewear, plus size — if it has a size chart on Shopify, PrimeStyle fits it."
       }
     },
-    "video": {
-      "type": "video",
-      "settings": {
-        "heading": "",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "heading_size": "h1",
-        "description": "",
-        "full_width": false,
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "multicolumn": {
-      "type": "multicolumn",
+    "ps_pricing": {
+      "type": "ps-pricing",
       "blocks": {
-        "column1": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column2": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column3": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
+        "t-1": { "type": "tier", "settings": { "name": "Pilot",   "price": "Free",   "unit": "",       "description": "A controlled way to test the Decision Engine in a real environment.", "includes_heading": "Pilot includes:",              "feature_list": "<ul><li>500 to 1,000 try-ons</li><li>Limited product selection</li><li>30 day access</li><li>Basic reporting</li><li>Usage controls</li></ul>", "cta_label": "Install on Shopify", "cta_link": "https://apps.shopify.com/primestyle" } },
+        "t-2": { "type": "tier", "settings": { "name": "Starter", "price": "$199",   "unit": "/month", "description": "For smaller brands and initial rollouts.",                          "includes_heading": "Starter includes:",            "feature_list": "<ul><li>1,200 try-ons included</li><li>$0.40 per additional try-on</li><li>Full Decision Engine access</li><li>Usage controls</li><li>Email support</li></ul>", "cta_label": "Install on Shopify", "cta_link": "https://apps.shopify.com/primestyle" } },
+        "t-3": { "type": "tier", "settings": { "name": "Growth",  "price": "$299",   "unit": "/month", "description": "For growing brands looking to scale usage.", "featured": true, "includes_heading": "Everything in Starter, plus:", "feature_list": "<ul><li>2,500 try-ons included</li><li>$0.35 per additional try-on</li><li>Full Decision Engine access</li><li>Advanced usage controls</li><li>Priority support</li></ul>", "cta_label": "Install on Shopify", "cta_link": "https://apps.shopify.com/primestyle" } },
+        "t-4": { "type": "tier", "settings": { "name": "Pro",     "price": "$499",   "unit": "/month", "description": "For brands with consistent customer engagement.",                    "includes_heading": "Everything in Growth, plus:",  "feature_list": "<ul><li>5,000 try-ons included</li><li>$0.30 per additional try-on</li><li>Full Decision Engine access</li><li>Advanced analytics</li><li>Priority support</li></ul>", "cta_label": "Install on Shopify", "cta_link": "https://apps.shopify.com/primestyle" } },
+        "t-5": { "type": "tier", "settings": { "name": "Scale",   "price": "$1,499", "unit": "/month", "description": "For high-volume retailers and larger catalogs.",                     "includes_heading": "Everything in Pro, plus:",     "feature_list": "<ul><li>20,000 try-ons included</li><li>$0.25 per additional try-on</li><li>Full Decision Engine access</li><li>Dedicated support</li><li>SLA options</li></ul>", "cta_label": "Contact Sales", "cta_link": "mailto:support@primestyleai.com" } }
       },
-      "block_order": [
-        "column1",
-        "column2",
-        "column3"
-      ],
+      "block_order": ["t-1", "t-2", "t-3", "t-4", "t-5"],
       "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "third",
-        "image_ratio": "adapt",
-        "columns_desktop": 3,
-        "column_alignment": "center",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "swipe_on_mobile": false,
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "title": "Simple, usage-based pricing.",
+        "subtitle": "Start small. Control exposure. Scale with real customer engagement.",
+        "featured_badge_label": "Most Popular",
+        "payg_title": "Not ready for a plan?",
+        "payg_description": "Start with pay-as-you-go and scale when you're ready.",
+        "payg_bullets": "<ul><li>No monthly commitment</li><li>Full Decision Engine access</li><li>Ideal for testing or low-volume usage</li></ul>",
+        "payg_price": "$0.50",
+        "payg_unit": "/try-on",
+        "payg_cta_label": "Install on Shopify",
+        "payg_cta_link": "https://apps.shopify.com/primestyle",
+        "enterprise_note": "Need higher volume, custom SLAs, or on-prem? Talk to Enterprise",
+        "enterprise_link": "mailto:support@primestyleai.com"
       }
-    }
+    },
+    "ps_cta": {
+      "type": "ps-cta-banner",
+      "settings": {
+        "title": "Match every shopper to the right size.",
+        "body": "Install PrimeStyle AI from the Shopify App Store and end size returns.",
+        "primary_label": "Install on Shopify",
+        "primary_link": "https://apps.shopify.com/primestyle",
+        "secondary_label": "See it in action",
+        "secondary_link": "/pages/demo-products",
+        "footer": "Free tier · Shopify App Store · No credit card required · 5-minute setup"
+      }
+    },
   },
   "order": [
-    "image_banner",
-    "rich_text",
-    "featured_collection",
-    "collage",
-    "video",
-    "multicolumn"
+    "ps_hero",
+    "ps_problem",
+    "ps_shopify",
+    "ps_features",
+    "ps_sdk_demo",
+    "ps_scale",
+    "ps_garments",
+    "ps_pricing",
+    "ps_cta"
   ]
 }

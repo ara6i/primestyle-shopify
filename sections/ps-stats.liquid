@@ -1,0 +1,42 @@
+{% comment %}
+  PrimeStyle Stats — 4-stat strip with gradient cards.
+{% endcomment %}
+
+<section class="ps-root ps-stats" data-ps-stagger>
+  <div class="ps-stats__grid">
+    {%- for block in section.blocks -%}
+      <div class="ps-stat-card" data-ps-reveal {{ block.shopify_attributes }}>
+        <span class="ps-stat-card__value">{{ block.settings.value }}</span>
+        <span class="ps-stat-card__label">{{ block.settings.label }}</span>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Stats",
+  "tag": "section",
+  "class": "ps-section",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "98%" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Size accuracy" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · Stats",
+    "blocks": [
+      { "type": "stat", "settings": { "value": "98%", "label": "Size accuracy" } },
+      { "type": "stat", "settings": { "value": "<15s", "label": "Try-on time" } },
+      { "type": "stat", "settings": { "value": "20+", "label": "Languages" } },
+      { "type": "stat", "settings": { "value": "1M+", "label": "Try-ons generated" } }
+    ]
+  }]
+}
+{% endschema %}

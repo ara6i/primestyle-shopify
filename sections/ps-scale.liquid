@@ -1,0 +1,154 @@
+{% comment %}
+  PS Scale — 4 cards with custom mini-mockup visuals.
+  Mirrors prime-products ScaleSection: Customize + Devices + Languages (span 2)
+  in a 6-col grid, Garments (span 6).
+{% endcomment %}
+
+{%- liquid
+  assign flag_codes = section.settings.flag_codes | default: 'en,es,fr,de,it,pt,ar,zh,ja,ko,ru' | split: ','
+  assign garment_files = section.settings.garment_files | default: 'ps-garment-tshirt.png,ps-garment-dress.png,ps-garment-suit.png,ps-garment-jeans.png,ps-garment-jacket.png,ps-garment-coat.png' | split: ','
+-%}
+
+<section class="ps-root ps-scale" id="scale">
+  <div class="ps-scale__inner">
+    {%- render 'ps-section-heading',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.title,
+      align: 'left'
+    -%}
+
+    <div class="ps-scale__grid" data-ps-stagger>
+
+      {%- comment -%} ─── Customize card ─── {%- endcomment -%}
+      <article class="ps-scale-card ps-scale-card--span2" data-ps-reveal="fade-up">
+        <div class="ps-scale-card__visual">
+          <div class="ps-scale-card__glow ps-scale-card__glow--blue" aria-hidden="true"></div>
+          <div class="ps-scale-customize">
+            <div class="ps-scale-customize__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+              </svg>
+            </div>
+            <div class="ps-scale-customize__bars">
+              <span class="ps-scale-customize__bar ps-scale-customize__bar--a"></span>
+              <span class="ps-scale-customize__bar ps-scale-customize__bar--b"></span>
+              <span class="ps-scale-customize__bar ps-scale-customize__bar--c"></span>
+            </div>
+            <div class="ps-scale-customize__swatches">
+              <span class="ps-scale-customize__swatch ps-scale-customize__swatch--a"></span>
+              <span class="ps-scale-customize__swatch ps-scale-customize__swatch--b"></span>
+              <span class="ps-scale-customize__swatch ps-scale-customize__swatch--c"></span>
+            </div>
+          </div>
+        </div>
+        <div class="ps-scale-card__copy">
+          <h3 class="ps-scale-card__title">{{ section.settings.customize_title | default: 'Fully customizable' }}</h3>
+          <p class="ps-scale-card__body">{{ section.settings.customize_body | default: 'Colors, layout, widget placement, flow.' }}</p>
+        </div>
+      </article>
+
+      {%- comment -%} ─── Devices card ─── {%- endcomment -%}
+      <article class="ps-scale-card ps-scale-card--span2" data-ps-reveal="fade-up" data-ps-delay="1">
+        <div class="ps-scale-card__visual">
+          <div class="ps-scale-card__glow ps-scale-card__glow--purple" aria-hidden="true"></div>
+          <div class="ps-scale-devices">
+            <div class="ps-scale-devices__laptop">
+              <div class="ps-scale-devices__laptop-bar"></div>
+              <div class="ps-scale-devices__laptop-body">
+                <span class="ps-scale-devices__line" style="width: 75%"></span>
+                <span class="ps-scale-devices__line ps-scale-devices__line--faint" style="width: 50%"></span>
+                <span class="ps-scale-devices__pill"></span>
+              </div>
+            </div>
+            <div class="ps-scale-devices__phone">
+              <div class="ps-scale-devices__phone-bar"></div>
+              <div class="ps-scale-devices__phone-body">
+                <span class="ps-scale-devices__line ps-scale-devices__line--purple" style="width: 100%"></span>
+                <span class="ps-scale-devices__line ps-scale-devices__line--purple-faint" style="width: 66%"></span>
+                <span class="ps-scale-devices__pill ps-scale-devices__pill--purple"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ps-scale-card__copy">
+          <h3 class="ps-scale-card__title">{{ section.settings.devices_title | default: 'Mobile & desktop' }}</h3>
+          <p class="ps-scale-card__body">{{ section.settings.devices_body | default: 'Same experience, every device.' }}</p>
+        </div>
+      </article>
+
+      {%- comment -%} ─── Languages card ─── {%- endcomment -%}
+      <article class="ps-scale-card ps-scale-card--span2" data-ps-reveal="fade-up" data-ps-delay="2">
+        <div class="ps-scale-card__visual">
+          <div class="ps-scale-card__glow ps-scale-card__glow--blue" aria-hidden="true"></div>
+          <div class="ps-scale-globe">
+            <div class="ps-scale-globe__orbit" aria-hidden="true"></div>
+            <div class="ps-scale-globe__core" aria-hidden="true"></div>
+            {%- assign flag_count = flag_codes.size -%}
+            {%- for code in flag_codes -%}
+              {%- assign i = forloop.index0 -%}
+              {%- assign angle = 360 | times: i | divided_by: flag_count | minus: 90 -%}
+              <div class="ps-scale-globe__flag" style="--ps-angle: {{ angle }}deg;">
+                <img src="{{ 'ps-flag-' | append: code | strip | append: '.png' | asset_url }}" alt="{{ code | strip }}" width="24" height="24" loading="lazy">
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+        <div class="ps-scale-card__copy">
+          <h3 class="ps-scale-card__title">{{ section.settings.languages_title | default: '10+ languages' }}</h3>
+          <p class="ps-scale-card__body">{{ section.settings.languages_body | default: 'Sell globally without friction.' }}</p>
+        </div>
+      </article>
+
+      {%- comment -%} ─── Garments card (span 6) ─── {%- endcomment -%}
+      <article class="ps-scale-card ps-scale-card--span6" data-ps-reveal="fade-up" data-ps-delay="3">
+        <div class="ps-scale-card__visual">
+          <div class="ps-scale-card__glow ps-scale-card__glow--blue" aria-hidden="true"></div>
+          <div class="ps-scale-garments">
+            {%- for file in garment_files -%}
+              <div class="ps-scale-garments__item">
+                <img src="{{ file | strip | asset_url }}" alt="" loading="lazy">
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+        <div class="ps-scale-card__copy">
+          <h3 class="ps-scale-card__title">{{ section.settings.garments_title | default: 'Any garment' }}</h3>
+          <p class="ps-scale-card__body">{{ section.settings.garments_body | default: 'Menswear, womenswear, suits, denim, outerwear, activewear, plus size.' }}</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Built for Scale",
+  "tag": "section",
+  "class": "ps-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Built right" },
+    { "type": "text", "id": "title",   "label": "Title",   "default": "Built for production environments." },
+
+    { "type": "header", "content": "Customize card" },
+    { "type": "text",     "id": "customize_title", "label": "Title", "default": "Fully customizable" },
+    { "type": "textarea", "id": "customize_body",  "label": "Body",  "default": "Colors, layout, widget placement, flow." },
+
+    { "type": "header", "content": "Devices card" },
+    { "type": "text",     "id": "devices_title", "label": "Title", "default": "Mobile & desktop" },
+    { "type": "textarea", "id": "devices_body",  "label": "Body",  "default": "Same experience, every device." },
+
+    { "type": "header", "content": "Languages card" },
+    { "type": "text",     "id": "languages_title", "label": "Title", "default": "10+ languages" },
+    { "type": "textarea", "id": "languages_body",  "label": "Body",  "default": "Sell globally without friction." },
+    { "type": "text",     "id": "flag_codes",      "label": "Flag codes (comma-sep)", "default": "en,es,fr,de,it,pt,ar,zh,ja,ko,ru" },
+
+    { "type": "header", "content": "Garments card" },
+    { "type": "text",     "id": "garments_title", "label": "Title", "default": "Any garment" },
+    { "type": "textarea", "id": "garments_body",  "label": "Body",  "default": "Menswear, womenswear, suits, denim, outerwear, activewear, plus size." },
+    { "type": "textarea", "id": "garment_files",  "label": "Garment asset filenames (comma-sep)", "default": "ps-garment-tshirt.png,ps-garment-dress.png,ps-garment-suit.png,ps-garment-jeans.png,ps-garment-jacket.png,ps-garment-coat.png" }
+  ],
+  "presets": [{ "name": "PS · Built for Scale" }]
+}
+{% endschema %}

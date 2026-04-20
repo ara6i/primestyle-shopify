@@ -1,0 +1,89 @@
+{% comment %}
+  PrimeStyle product card — for grids on landing/collection/related.
+
+  Accepts:
+  - card_product:     Product object (required)
+  - media_aspect:     square | portrait | landscape | adapt   (default: portrait)
+  - show_secondary_image: Boolean — flip to second image on hover
+  - show_tryon_badge: Boolean — render the floating "Try-On" badge
+  - show_vendor:      Boolean
+  - lazy:             Boolean — lazy load image (default true)
+  - heading_tag:      h2 | h3 (default: h3)
+{% endcomment %}
+
+{%- liquid
+  assign p = card_product
+  assign _aspect = media_aspect | default: 'portrait'
+  assign _heading = heading_tag | default: 'h3'
+
+  assign featured = p.featured_media
+  assign secondary = p.media[1]
+
+  assign on_sale = false
+  if p.compare_at_price > p.price
+    assign on_sale = true
+  endif
+-%}
+
+{%- if p == blank -%}
+  <div class="ps-card-product ps-card-product--placeholder">
+    <div class="ps-card-product__media ps-card-product__media--{{ _aspect }}">
+      {%- render 'ps-placeholder', ratio: '4-5', label: 'Product', icon: 'image' -%}
+    </div>
+    <div class="ps-card-product__body">
+      <h3 class="ps-card-product__title">Product title</h3>
+      <span class="ps-card-product__price">$0.00</span>
+    </div>
+  </div>
+{%- else -%}
+  <a href="{{ p.url }}" class="ps-card-product" data-ps-reveal>
+    <div class="ps-card-product__media ps-card-product__media--{{ _aspect }}">
+      {%- if on_sale -%}
+        <span class="ps-badge ps-badge--sale ps-badge--floating">Sale</span>
+      {%- elsif p.available == false -%}
+        <span class="ps-badge ps-badge--sold-out ps-badge--floating">Sold out</span>
+      {%- endif -%}
+
+      {%- if show_tryon_badge -%}
+        <span class="ps-badge ps-badge--brand ps-card-product__tryon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="12" height="12"><path d="M12 2l2.39 6.45L21 11l-6.61 2.55L12 20l-2.39-6.45L3 11l6.61-2.55z"/></svg>
+          Try-On
+        </span>
+      {%- endif -%}
+
+      {%- if featured -%}
+        {{ featured | image_url: width: 800 | image_tag:
+          loading: 'lazy',
+          widths: '200, 320, 480, 640, 800, 1024',
+          sizes: '(min-width: 990px) 22vw, (min-width: 750px) 32vw, 45vw',
+          alt: featured.alt | default: p.title,
+          class: 'ps-card-product__img ps-card-product__img--primary'
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'ps-card-product__img ps-card-product__img--primary' }}
+      {%- endif -%}
+
+      {%- if show_secondary_image and secondary -%}
+        {{ secondary | image_url: width: 800 | image_tag:
+          loading: 'lazy',
+          widths: '200, 320, 480, 640, 800, 1024',
+          sizes: '(min-width: 990px) 22vw, (min-width: 750px) 32vw, 45vw',
+          alt: p.title,
+          class: 'ps-card-product__img ps-card-product__img--secondary'
+        }}
+      {%- endif -%}
+    </div>
+
+    <div class="ps-card-product__body">
+      {%- if show_vendor and p.vendor -%}
+        <span class="ps-card-product__vendor">{{ p.vendor }}</span>
+      {%- endif -%}
+      {%- if _heading == 'h2' -%}
+        <h2 class="ps-card-product__title">{{ p.title }}</h2>
+      {%- else -%}
+        <h3 class="ps-card-product__title">{{ p.title }}</h3>
+      {%- endif -%}
+      {%- render 'ps-price', product: p, show_badges: false -%}
+    </div>
+  </a>
+{%- endif -%}

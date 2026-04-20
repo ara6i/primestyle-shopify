@@ -1,0 +1,364 @@
+{% comment %}
+  PrimeStyle Product Detail — full PDP with try-on CTA card.
+  Wraps Dawn's <product-info> + <variant-selects> + <product-form> + <quantity-input>
+  custom elements so cart, variant switching, and quantity logic remain intact.
+{% endcomment %}
+
+<product-info
+  id="MainProduct-{{ section.id }}"
+  class="ps-root ps-product"
+  data-section="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-update-url="true"
+  data-url="{{ product.url }}"
+>
+  <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+  {%- assign product_form_id = 'product-form-' | append: section.id -%}
+  {%- assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+
+  <div class="ps-product__layout">
+
+    {% comment %} ============================================================
+                                    GALLERY
+       ============================================================ {% endcomment %}
+    <div class="ps-product__gallery">
+      <div class="ps-gallery">
+        {%- if product.media.size > 0 -%}
+          <div class="ps-gallery__main">
+            {%- for media in product.media -%}
+              <div
+                class="ps-gallery__slide{% if forloop.first %} ps-gallery__slide--active{% endif %}"
+                data-media-id="{{ media.id }}"
+                id="ps-gallery-slide-{{ section.id }}-{{ media.id }}"
+              >
+                {%- case media.media_type -%}
+                  {%- when 'image' -%}
+                    {{ media | image_url: width: 1600 | image_tag:
+                      loading: 'lazy',
+                      widths: '320, 480, 640, 800, 1024, 1280, 1600',
+                      sizes: '(min-width: 990px) 50vw, 100vw',
+                      alt: media.alt | default: product.title,
+                      class: 'ps-gallery__img'
+                    }}
+                  {%- when 'video', 'external_video' -%}
+                    {{ media | media_tag: image_size: '1600x', autoplay: false, loop: false, controls: true, preload: 'metadata' }}
+                  {%- when 'model' -%}
+                    {{ media | media_tag: image_size: '1600x', toggleable: true }}
+                  {%- else -%}
+                    {{ media | media_tag }}
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- if product.media.size > 1 -%}
+            <div class="ps-gallery__thumbs" role="list">
+              {%- for media in product.media -%}
+                <button
+                  type="button"
+                  class="ps-gallery__thumb{% if forloop.first %} ps-gallery__thumb--active{% endif %}"
+                  data-media-id="{{ media.id }}"
+                  aria-label="View image {{ forloop.index }}"
+                >
+                  {{ media.preview_image | image_url: width: 240 | image_tag:
+                    loading: 'lazy',
+                    alt: media.alt | default: product.title,
+                    class: 'ps-gallery__thumb-img'
+                  }}
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        {%- else -%}
+          <div class="ps-gallery__main">
+            <div class="ps-gallery__slide ps-gallery__slide--active">
+              {%- render 'ps-placeholder', ratio: '4-5', label: 'Product image', icon: 'image' -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {% comment %} ============================================================
+                                INFO COLUMN
+       ============================================================ {% endcomment %}
+    <div class="ps-product__info">
+
+      {%- if product.vendor != blank -%}
+        <span class="ps-product__vendor" data-ps-reveal="fade">{{ product.vendor }}</span>
+      {%- endif -%}
+
+      <h1 class="ps-product__title" data-ps-reveal="fade">{{ product.title }}</h1>
+
+      {%- if product.metafields.descriptors.subtitle.value != blank -%}
+        <p class="ps-product__subtitle" data-ps-reveal="fade">{{ product.metafields.descriptors.subtitle.value }}</p>
+      {%- endif -%}
+
+      <div class="ps-product__price-row" data-ps-reveal="fade">
+        {%- render 'ps-price', product: product, use_variant: true, show_badges: true, size: 'lg' -%}
+      </div>
+
+      {% comment %} ----- VARIANT PICKER ----- {% endcomment %}
+      {%- unless product.has_only_default_variant -%}
+        <variant-selects
+          id="variant-selects-{{ section.id }}"
+          class="ps-variant-picker"
+          data-section="{{ section.id }}"
+        >
+          {%- for option in product.options_with_values -%}
+            <fieldset class="ps-variant-picker__option js product-form__input">
+              <legend class="ps-variant-picker__label">
+                <span>{{ option.name }}</span>
+                <span class="ps-variant-picker__selected" data-selected-value>{{ option.selected_value }}</span>
+              </legend>
+              <div class="ps-variant-picker__values">
+                {%- for value in option.values -%}
+                  {%- liquid
+                    assign input_id = section.id | append: '-' | append: option.position | append: '-' | append: forloop.index0
+                    assign input_name = option.name | append: '-' | append: option.position
+                    assign option_disabled = true
+                    if value.available
+                      assign option_disabled = false
+                    endif
+                  -%}
+                  <input
+                    type="radio"
+                    id="{{ input_id }}"
+                    class="ps-variant-picker__input"
+                    name="{{ input_name | escape }}"
+                    value="{{ value | escape }}"
+                    form="{{ product_form_id }}"
+                    data-product-url="{{ value.product_url }}"
+                    data-option-value-id="{{ value.id }}"
+                    {% if value.selected %}checked{% endif %}
+                    {% if option_disabled %}disabled{% endif %}
+                  >
+                  <label for="{{ input_id }}" class="ps-variant-picker__pill{% if option_disabled %} ps-variant-picker__pill--disabled{% endif %}">
+                    {{ value }}
+                  </label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
+
+          <script type="application/json" data-selected-variant>
+            {{ product.selected_or_first_available_variant | json }}
+          </script>
+        </variant-selects>
+      {%- endunless -%}
+
+      {% comment %} ----- TRY IT ON CTA CARD (placeholder) ----- {% endcomment %}
+      <div class="ps-tryon-card" data-ps-reveal="scale" data-product-id="{{ product.id }}">
+        <div class="ps-tryon-card__content">
+          <span class="ps-tryon-card__eyebrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.39 6.45L21 11l-6.61 2.55L12 20l-2.39-6.45L3 11l6.61-2.55z"/></svg>
+            AI Virtual Try-On
+          </span>
+          <h3 class="ps-tryon-card__title">See it on your body</h3>
+          <p class="ps-tryon-card__desc">Find your perfect size and try it on virtually in under 60 seconds.</p>
+          <button type="button" class="ps-btn ps-btn--white ps-btn--md ps-tryon-card__cta" data-ps-tryon-trigger>
+            <span class="ps-btn__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3.5"/></svg>
+            </span>
+            <span>Try It On</span>
+          </button>
+        </div>
+        <div class="ps-tryon-card__visual">
+          {%- render 'ps-placeholder',
+            ratio: '1-1',
+            label: 'TRY-ON PREVIEW',
+            hint: 'Drop SDK modal GIF here',
+            icon: 'gif'
+          -%}
+        </div>
+      </div>
+
+      {% comment %} ----- QUANTITY ----- {% endcomment %}
+      <div class="ps-product__qty-row product-form__quantity" data-ps-reveal="fade">
+        <label class="ps-product__qty-label" for="Quantity-{{ product.selected_or_first_available_variant.id }}">Quantity</label>
+        <quantity-input class="ps-quantity">
+          <button class="ps-quantity__btn" name="minus" type="button" aria-label="Decrease quantity">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <input
+            class="ps-quantity__input quantity__input"
+            type="number"
+            name="quantity"
+            id="Quantity-{{ product.selected_or_first_available_variant.id }}"
+            min="{{ product.selected_or_first_available_variant.quantity_rule.min | default: 1 }}"
+            value="1"
+            data-min="{{ product.selected_or_first_available_variant.quantity_rule.min | default: 1 }}"
+            {% if product.selected_or_first_available_variant.quantity_rule.max != null %}max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"{% endif %}
+            step="{{ product.selected_or_first_available_variant.quantity_rule.increment | default: 1 }}"
+            form="{{ product_form_id }}"
+          >
+          <button class="ps-quantity__btn" name="plus" type="button" aria-label="Increase quantity">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><line x1="12" y1="5" x2="12" y2="19"/></svg>
+          </button>
+        </quantity-input>
+      </div>
+
+      {% comment %} ----- BUY BUTTONS ----- {% endcomment %}
+      <div class="ps-product__buy" data-ps-reveal="fade">
+        <product-form class="product-form" data-section-id="{{ section.id }}">
+          <div class="product-form__error-message-wrapper" role="alert" hidden>
+            <span class="ps-product__error-message product-form__error-message"></span>
+          </div>
+          {%- form 'product', product, id: product_form_id, class: 'ps-product__form form', novalidate: 'novalidate' -%}
+            <input
+              type="hidden"
+              name="id"
+              value="{{ product.selected_or_first_available_variant.id }}"
+              {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+              class="product-variant-id"
+            >
+            <button
+              id="ProductSubmitButton-{{ section.id }}"
+              type="submit"
+              name="add"
+              class="ps-btn ps-btn--primary ps-btn--lg ps-btn--block ps-product__add-to-cart product-form__submit"
+              {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+            >
+              <span class="ps-btn__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+              </span>
+              <span>
+                {%- if product.selected_or_first_available_variant == null -%}
+                  Unavailable
+                {%- elsif product.selected_or_first_available_variant.available == false -%}
+                  Sold out
+                {%- else -%}
+                  Add to cart · {%- render 'ps-price', product: product, use_variant: true -%}
+                {%- endif -%}
+              </span>
+              <div class="loading__spinner hidden">
+                <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle stroke-width="6" cx="33" cy="33" r="30" fill="none" /></svg>
+              </div>
+            </button>
+            {%- if section.settings.show_dynamic_checkout -%}
+              {{ form | payment_button }}
+            {%- endif -%}
+          {%- endform -%}
+        </product-form>
+      </div>
+
+      {%- if section.settings.show_pickup_availability -%}
+        <pickup-availability
+          class="ps-product__pickup"
+          {% if product.selected_or_first_available_variant.available %}available{% endif %}
+          data-root-url="{{ routes.root_url }}"
+          data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+          data-has-only-default-variant="{{ product.has_only_default_variant }}"
+        ></pickup-availability>
+        <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
+      {%- endif -%}
+
+      {% comment %} ----- DESCRIPTION + ACCORDIONS ----- {% endcomment %}
+      {%- if product.description != blank -%}
+        <div class="ps-product__description" data-ps-reveal="fade">
+          {{ product.description }}
+        </div>
+      {%- endif -%}
+
+      <div class="ps-accordion" data-ps-reveal="fade">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'accordion' -%}
+            <details class="ps-accordion__item" {{ block.shopify_attributes }}>
+              <summary class="ps-accordion__summary">
+                <span class="ps-accordion__summary-text">
+                  {%- case block.settings.icon -%}
+                    {%- when 'truck' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    {%- when 'ruler' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 8.7L8.7 21.3a1 1 0 0 1-1.4 0L2.7 16.7a1 1 0 0 1 0-1.4L15.3 2.7a1 1 0 0 1 1.4 0l4.6 4.6a1 1 0 0 1 0 1.4z"/><path d="M7 17l-3-3"/><path d="M11 13l-2-2"/><path d="M15 9l-2-2"/></svg>
+                    {%- when 'heart' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    {%- when 'leather' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/></svg>
+                    {%- else -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  {%- endcase -%}
+                  {{ block.settings.heading }}
+                </span>
+                <span class="ps-accordion__chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="ps-accordion__body">
+                {%- if block.settings.content != blank -%}
+                  {{ block.settings.content }}
+                {%- elsif block.settings.page != blank -%}
+                  {{ pages[block.settings.page].content }}
+                {%- endif -%}
+              </div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {% comment %} ----- SHARE ----- {% endcomment %}
+      {%- if section.settings.show_share -%}
+        <div class="ps-product__share" data-ps-reveal="fade">
+          <span class="ps-product__share-label">Share</span>
+          <div class="ps-product__share-buttons">
+            <a class="ps-product__share-btn" href="https://twitter.com/share?url={{ shop.url }}{{ product.url }}&text={{ product.title | escape }}" target="_blank" rel="noopener" aria-label="Share on Twitter">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a class="ps-product__share-btn" href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ product.url }}" target="_blank" rel="noopener" aria-label="Share on Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12z"/></svg>
+            </a>
+            <a class="ps-product__share-btn" href="https://pinterest.com/pin/create/button/?url={{ shop.url }}{{ product.url }}&media={{ featured_media | image_url: width: 1200 }}&description={{ product.title | escape }}" target="_blank" rel="noopener" aria-label="Share on Pinterest">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0a12 12 0 0 0-4.373 23.178c-.105-.93-.2-2.358.041-3.374.218-.918 1.405-5.844 1.405-5.844s-.358-.717-.358-1.778c0-1.665.965-2.91 2.166-2.91 1.022 0 1.515.768 1.515 1.689 0 1.029-.654 2.566-.992 3.991-.282 1.194.6 2.169 1.778 2.169 2.135 0 3.776-2.252 3.776-5.504 0-2.877-2.067-4.888-5.018-4.888-3.418 0-5.424 2.564-5.424 5.215 0 1.033.398 2.141.895 2.744a.36.36 0 0 1 .083.345c-.091.378-.293 1.193-.333 1.36-.052.215-.171.262-.395.158-1.473-.686-2.394-2.84-2.394-4.572 0-3.722 2.703-7.142 7.793-7.142 4.092 0 7.272 2.917 7.272 6.815 0 4.067-2.566 7.336-6.124 7.336-1.196 0-2.32-.621-2.704-1.355l-.735 2.804c-.266 1.024-.984 2.308-1.466 3.09A12 12 0 1 0 12 0z"/></svg>
+            </a>
+          </div>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</product-info>
+
+{% schema %}
+{
+  "name": "PS · Product",
+  "tag": "section",
+  "class": "ps-section",
+  "settings": [
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout (Shop Pay, etc.)", "default": true },
+    { "type": "checkbox", "id": "show_pickup_availability", "label": "Show pickup availability", "default": true },
+    { "type": "checkbox", "id": "show_share", "label": "Show share buttons", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "Accordion tab",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Details" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "leather",
+          "options": [
+            { "value": "leather", "label": "Materials" },
+            { "value": "truck", "label": "Shipping" },
+            { "value": "ruler", "label": "Dimensions" },
+            { "value": "heart", "label": "Care" }
+          ]
+        },
+        { "type": "richtext", "id": "content", "label": "Content" },
+        { "type": "page", "id": "page", "label": "Or link to a page" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · Product",
+    "blocks": [
+      { "type": "accordion", "settings": { "heading": "Materials", "icon": "leather" } },
+      { "type": "accordion", "settings": { "heading": "Shipping & Returns", "icon": "truck" } },
+      { "type": "accordion", "settings": { "heading": "Dimensions", "icon": "ruler" } },
+      { "type": "accordion", "settings": { "heading": "Care Instructions", "icon": "heart" } }
+    ]
+  }]
+}
+{% endschema %}

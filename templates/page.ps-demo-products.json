@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "ps-demo-products",
+      "settings": {
+        "api_base": "http://localhost:4000",
+        "detail_page_handle": "demo-product"
+      }
+    }
+  },
+  "order": ["main"]
+}

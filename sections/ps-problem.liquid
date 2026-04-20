@@ -1,0 +1,84 @@
+{% comment %}
+  PS Problem — editorial section highlighting size-return pain point.
+  Clean typography layout with blockquote callout and stat numbers.
+{% endcomment %}
+
+<section class="ps-root ps-problem">
+  <div class="ps-problem__inner">
+    <div class="ps-problem__head" data-ps-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="ps-eyebrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          {{ section.settings.eyebrow }}
+        </span>
+      {%- endif -%}
+      <h2 class="ps-problem__title">{{ section.settings.headline }}</h2>
+    </div>
+
+    {%- if section.settings.body != blank -%}
+      <div class="ps-problem__body" data-ps-reveal>
+        {{ section.settings.body }}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Stats strip {%- endcomment -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="ps-problem__stats" data-ps-reveal>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'stat' -%}
+            <div class="ps-problem__stat" {{ block.shopify_attributes }}>
+              <span class="ps-problem__stat-value">{{ block.settings.value }}</span>
+              <span class="ps-problem__stat-label">{{ block.settings.label }}</span>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.pullquote != blank -%}
+      <figure class="ps-pullquote" data-ps-reveal="scale">
+        <svg class="ps-pullquote__mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M9 7H6a3 3 0 0 0-3 3v3a3 3 0 0 0 3 3h1v2a2 2 0 0 1-2 2v2a4 4 0 0 0 4-4v-7a3 3 0 0 0-3-3zm12 0h-3a3 3 0 0 0-3 3v3a3 3 0 0 0 3 3h1v2a2 2 0 0 1-2 2v2a4 4 0 0 0 4-4v-7a3 3 0 0 0-3-3z"/>
+        </svg>
+        <blockquote class="ps-pullquote__text">{{ section.settings.pullquote }}</blockquote>
+        {%- if section.settings.pullquote_footer != blank -%}
+          <figcaption class="ps-pullquote__footer">{{ section.settings.pullquote_footer }}</figcaption>
+        {%- endif -%}
+      </figure>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Problem",
+  "tag": "section",
+  "class": "ps-section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text",     "id": "eyebrow",          "label": "Eyebrow",          "default": "Returns" },
+    { "type": "text",     "id": "headline",          "label": "Headline",         "default": "Wrong size. Lost margin." },
+    { "type": "richtext", "id": "body",              "label": "Body",             "default": "<p>Size returns are the biggest cost in online fashion. Shoppers guess. They order multiples. They send items back. We solve it at the source.</p>" },
+    { "type": "textarea", "id": "pullquote",         "label": "Pullquote",        "default": "What if every customer knew their perfect size before they ever touched 'Add to Cart'?" },
+    { "type": "textarea", "id": "pullquote_footer",  "label": "Pullquote footer", "default": "That's what PrimeStyle AI does. No guesswork. No sizing anxiety. Just confident purchases that stick." }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "30%" },
+        { "type": "text", "id": "label", "label": "Label", "default": "of online fashion returns are size-related" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · Problem",
+    "blocks": [
+      { "type": "stat", "settings": { "value": "30%",  "label": "of online fashion returns are size-related" } },
+      { "type": "stat", "settings": { "value": "2–3x", "label": "items ordered per purchase due to size uncertainty" } },
+      { "type": "stat", "settings": { "value": "$15+",  "label": "cost per return in shipping & restocking" } }
+    ]
+  }]
+}
+{% endschema %}

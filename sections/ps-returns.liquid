@@ -1,0 +1,64 @@
+{% comment %}
+  PS Returns — 3 numbered cards on colored background.
+{% endcomment %}
+
+<section class="ps-root ps-returns">
+  <div class="ps-returns__inner">
+    {%- render 'ps-section-heading',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.title
+    -%}
+
+    <div class="ps-returns__grid" data-ps-stagger>
+      {%- for block in section.blocks -%}
+        <article class="ps-return-card" data-ps-reveal {{ block.shopify_attributes }}>
+          <div class="ps-return-card__head">
+            <div class="ps-return-card__num">0{{ forloop.index }}</div>
+            <div class="ps-return-card__icon" aria-hidden="true">
+              {%- if forloop.index == 1 -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+              {%- elsif forloop.index == 2 -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m5 15 5-5 4 4 5-7"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="m9 11 3 3L22 4"/></svg>
+              {%- endif -%}
+            </div>
+          </div>
+          <h3 class="ps-return-card__title">{{ block.settings.title }}</h3>
+          <p class="ps-return-card__body">{{ block.settings.body }}</p>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Returns",
+  "tag": "section",
+  "class": "ps-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Returns" },
+    { "type": "text", "id": "title",   "label": "Title",   "default": "Stop bleeding margin on size returns." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "text",     "id": "title", "label": "Title", "default": "Lower Return Rates" },
+        { "type": "textarea", "id": "body",  "label": "Body",  "default": "When customers know their size, they stop ordering multiples." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · Returns",
+    "blocks": [
+      { "type": "card", "settings": { "title": "Lower Return Rates", "body": "When customers know their size, they stop ordering multiples. Fewer shipments back. Lower logistics overhead. Cleaner inventory." } },
+      { "type": "card", "settings": { "title": "Higher Conversion",  "body": "Size uncertainty kills checkout. Remove the doubt and your browse-to-buy rate goes up — customers who trust the fit don't hesitate." } },
+      { "type": "card", "settings": { "title": "No More Exchanges",  "body": "No more back-and-forth swaps tying up stock and frustrating your support team. Right size, first order, every time." } }
+    ]
+  }]
+}
+{% endschema %}

@@ -1,0 +1,87 @@
+{% comment %}
+  PS Categories — "Who it's for" 6-card grid.
+{% endcomment %}
+
+<section class="ps-root ps-cats">
+  <div class="ps-cats__inner">
+    {%- render 'ps-section-heading',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.title
+    -%}
+
+    <div class="ps-cats__grid" data-ps-stagger>
+      {%- for block in section.blocks -%}
+        <article class="ps-cat-card" data-ps-reveal {{ block.shopify_attributes }}>
+          <div class="ps-cat-card__icon" aria-hidden="true">
+            {%- case block.settings.icon -%}
+              {%- when 'menswear' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l4-3h10l4 3-3 4v9a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-9z"/><path d="M9 4l3 4 3-4"/></svg>
+              {%- when 'womenswear' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-2 5 4 8a3 3 0 0 1-3 4h-6a3 3 0 0 1-3-4l4-8z"/></svg>
+              {%- when 'denim' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v6l-2 12h-3l-1-9-1 9H8L6 9z"/></svg>
+              {%- when 'outerwear' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l4-5h6l4 5-3 3v9a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-9z"/><path d="M12 3v18"/></svg>
+              {%- when 'activewear' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>
+              {%- when 'plus' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+            {%- endcase -%}
+          </div>
+          <h3 class="ps-cat-card__title">{{ block.settings.title }}</h3>
+          <p class="ps-cat-card__desc">{{ block.settings.description }}</p>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Categories",
+  "tag": "section",
+  "class": "ps-section",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Built for" },
+    { "type": "text", "id": "title",   "label": "Title",   "default": "Every fashion retailer on Shopify." }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "menswear",
+          "options": [
+            { "value": "menswear",   "label": "Menswear" },
+            { "value": "womenswear", "label": "Womenswear" },
+            { "value": "denim",      "label": "Denim" },
+            { "value": "outerwear",  "label": "Outerwear" },
+            { "value": "activewear", "label": "Activewear" },
+            { "value": "plus",       "label": "Plus / Inclusive" }
+          ]
+        },
+        { "type": "text",     "id": "title",       "label": "Title",       "default": "Menswear" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Suits, shirts, trousers, tuxedos, casual" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · Categories",
+    "blocks": [
+      { "type": "category", "settings": { "icon": "menswear",   "title": "Menswear",            "description": "Suits, shirts, trousers, tuxedos, casual" } },
+      { "type": "category", "settings": { "icon": "womenswear", "title": "Womenswear",          "description": "Dresses, blouses, skirts, pants, formal" } },
+      { "type": "category", "settings": { "icon": "denim",      "title": "Denim & Bottoms",     "description": "Jeans, chinos, shorts, overalls" } },
+      { "type": "category", "settings": { "icon": "outerwear",  "title": "Outerwear",           "description": "Jackets, coats, blazers, parkas, vests" } },
+      { "type": "category", "settings": { "icon": "activewear", "title": "Activewear",          "description": "Gym, running, yoga, sports bras" } },
+      { "type": "category", "settings": { "icon": "plus",       "title": "Plus Size & Inclusive", "description": "Extended sizes, adaptive, all bodies" } }
+    ]
+  }]
+}
+{% endschema %}

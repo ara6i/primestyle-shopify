@@ -1,0 +1,139 @@
+{% comment %}
+  PS Footer — mirrors prime-products footer area.
+  Wraps Newsletter + brand + social + legal in a single pale-blue container.
+{% endcomment %}
+
+<footer class="ps-root ps-footer">
+  <div class="ps-footer__inner">
+
+    {%- comment -%} ── Newsletter ── {%- endcomment -%}
+    {%- if section.settings.newsletter_heading != blank -%}
+      <div class="ps-footer__newsletter" data-ps-reveal="fade-up" data-ps-stagger>
+        <h2 class="ps-footer__nl-title">{{ section.settings.newsletter_heading }}</h2>
+        {%- if section.settings.newsletter_description != blank -%}
+          <p class="ps-footer__nl-desc">{{ section.settings.newsletter_description }}</p>
+        {%- endif -%}
+
+        {%- form 'customer', class: 'ps-footer__nl-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label for="ps-footer-nl-email" class="ps-visually-hidden">Email</label>
+          <input
+            type="email"
+            name="contact[email]"
+            id="ps-footer-nl-email"
+            class="ps-footer__nl-input"
+            placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email' }}"
+            autocomplete="email"
+            required>
+          <button type="submit" class="ps-btn ps-btn--primary ps-btn--md">
+            <span>{{ section.settings.newsletter_button_label | default: 'Subscribe' }}</span>
+          </button>
+
+          {%- if form.posted_successfully? -%}
+            <p class="ps-footer__nl-success">{{ section.settings.newsletter_success_message | default: "Thanks for subscribing." }}</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <p class="ps-footer__nl-error">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} ── Brand + social row ── {%- endcomment -%}
+    <div class="ps-footer__top">
+      <a href="{{ routes.root_url }}" class="ps-footer__brand" aria-label="{{ section.settings.brand_name | default: 'PrimeStyle AI' }}">
+        {%- if section.settings.logo != blank -%}
+          {{ section.settings.logo | image_url: width: 400 | image_tag:
+            loading: 'lazy',
+            alt: section.settings.brand_name,
+            class: 'ps-footer__logo'
+          }}
+        {%- else -%}
+          <img src="{{ 'ps-logo-footer.png' | asset_url }}"
+               alt="{{ section.settings.brand_name | default: 'PrimeStyle AI' }}"
+               class="ps-footer__logo"
+               loading="lazy"
+               width="200"
+               height="200">
+        {%- endif -%}
+        <div class="ps-footer__brand-text">
+          <span class="ps-footer__name">{{ section.settings.brand_name | default: 'PrimeStyle AI' }}</span>
+          {%- if section.settings.tagline != blank -%}
+            <span class="ps-footer__tagline">{{ section.settings.tagline }}</span>
+          {%- endif -%}
+        </div>
+      </a>
+
+      <div class="ps-footer__social">
+        {%- if section.settings.linkedin_url != blank -%}
+          <a href="{{ section.settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="ps-footer__social-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.instagram_url != blank -%}
+          <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="ps-footer__social-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.youtube_url != blank -%}
+          <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="ps-footer__social-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="ps-footer__divider" aria-hidden="true"></div>
+
+    <div class="ps-footer__legal">
+      <span>© {{ 'now' | date: '%Y' }} {{ section.settings.brand_name | default: 'PrimeStyle AI' }}. {{ section.settings.rights_text | default: 'All rights reserved.' }}</span>
+      <div class="ps-footer__contact">
+        {%- if section.settings.contact_email != blank -%}
+          <a href="mailto:{{ section.settings.contact_email }}" class="ps-footer__contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            {{ section.settings.contact_email }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.location != blank -%}
+          <span class="ps-footer__contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            {{ section.settings.location }}
+          </span>
+        {%- endif -%}
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "tag": "section",
+  "class": "ps-section ps-section--footer",
+  "settings": [
+    { "type": "header", "content": "Newsletter" },
+    { "type": "text",     "id": "newsletter_heading",         "label": "Heading",         "default": "Stay updated with PrimeStyle AI" },
+    { "type": "textarea", "id": "newsletter_description",     "label": "Description",     "default": "Get launch news, Shopify app updates, and sizing research — delivered to your inbox." },
+    { "type": "text",     "id": "newsletter_placeholder",     "label": "Input placeholder","default": "Enter your email" },
+    { "type": "text",     "id": "newsletter_button_label",    "label": "Button label",    "default": "Subscribe" },
+    { "type": "text",     "id": "newsletter_success_message", "label": "Success message", "default": "Thanks for subscribing." },
+
+    { "type": "header", "content": "Brand" },
+    { "type": "image_picker", "id": "logo",          "label": "Logo" },
+    { "type": "text",         "id": "brand_name",    "label": "Brand name",    "default": "PrimeStyle AI" },
+    { "type": "text",         "id": "tagline",       "label": "Tagline",       "default": "The Decision Engine for fit." },
+
+    { "type": "header", "content": "Social" },
+    { "type": "url",          "id": "linkedin_url",  "label": "LinkedIn URL" },
+    { "type": "url",          "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "url",          "id": "youtube_url",   "label": "YouTube URL" },
+
+    { "type": "header", "content": "Contact + legal" },
+    { "type": "text",         "id": "contact_email", "label": "Contact email", "default": "support@primestyleai.com" },
+    { "type": "text",         "id": "location",      "label": "Location",      "default": "Laguna Niguel, California" },
+    { "type": "text",         "id": "rights_text",   "label": "Rights text",   "default": "All rights reserved." }
+  ],
+  "presets": [{ "name": "t:sections.footer.name" }]
+}
+{% endschema %}

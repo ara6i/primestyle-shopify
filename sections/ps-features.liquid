@@ -1,0 +1,121 @@
+{% comment %}
+  PS Features — tabbed capability showcase.
+  Four tabs, each with copy left and a single image right (16:10).
+  Uses <ps-tabs> custom element for tab switching.
+{% endcomment %}
+
+<section class="ps-root ps-features" id="features">
+  {%- render 'ps-section-heading',
+    eyebrow: section.settings.eyebrow,
+    title: section.settings.title
+  -%}
+
+  <div class="ps-features__inner">
+    <ps-tabs class="ps-tabs">
+      <div class="ps-tabs__nav" role="tablist" data-ps-reveal="fade">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            class="ps-tabs__btn{% if forloop.first %} ps-tabs__btn--active{% endif %}"
+            role="tab"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-controls="ps-tab-panel-{{ section.id }}-{{ forloop.index }}"
+            id="ps-tab-{{ section.id }}-{{ forloop.index }}"
+            data-tab-index="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}
+          >
+            <span class="ps-tabs__btn-num">0{{ forloop.index }}</span>
+            <span class="ps-tabs__btn-label">{{ block.settings.tab_label }}</span>
+          </button>
+        {%- endfor -%}
+      </div>
+
+      <div class="ps-tabs__panels" data-ps-reveal>
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign fallback = block.settings.fallback_asset
+            if fallback == blank
+              case forloop.index
+                when 1
+                  assign fallback = 'ps-finalizing-pose.png'
+                when 2
+                  assign fallback = 'ps-raw-01-sizing.jpg'
+                when 3
+                  assign fallback = 'ps-raw-06-tryon.jpg'
+                when 4
+                  assign fallback = 'ps-recommended-size.png'
+              endcase
+            endif
+          -%}
+          <div
+            class="ps-tabs__panel{% if forloop.first %} ps-tabs__panel--active{% endif %}"
+            role="tabpanel"
+            id="ps-tab-panel-{{ section.id }}-{{ forloop.index }}"
+            aria-labelledby="ps-tab-{{ section.id }}-{{ forloop.index }}"
+            data-tab-index="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}
+          >
+            <div class="ps-tabs__panel-content">
+              <div class="ps-tabs__copy">
+                <span class="ps-tabs__copy-num">Capability 0{{ forloop.index }}</span>
+                <h3 class="ps-tabs__copy-title">{{ block.settings.title }}</h3>
+                <p class="ps-tabs__copy-body">{{ block.settings.body }}</p>
+              </div>
+              <div class="ps-tabs__visual">
+                <div class="ps-feature-frame">
+                  {%- if block.settings.image != blank -%}
+                    {{ block.settings.image | image_url: width: 1600 | image_tag:
+                      loading: 'lazy',
+                      alt: block.settings.title,
+                      class: 'ps-feature-frame__img',
+                      widths: '600, 900, 1200, 1600'
+                    }}
+                  {%- elsif fallback != blank -%}
+                    <img src="{{ fallback | asset_url }}" alt="{{ block.settings.title | escape }}" class="ps-feature-frame__img" loading="lazy">
+                  {%- else -%}
+                    {%- render 'ps-placeholder', ratio: '16-9', label: block.settings.tab_label, icon: 'gif', alt: block.settings.title -%}
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </ps-tabs>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Features (tabs)",
+  "tag": "section",
+  "class": "ps-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What it does" },
+    { "type": "text", "id": "title",   "label": "Title",   "default": "Four moves. One perfect fit." }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        { "type": "text",         "id": "tab_label",      "label": "Tab label",      "default": "AI Sizing" },
+        { "type": "text",         "id": "title",          "label": "Title",          "default": "AI Sizing by Photo" },
+        { "type": "textarea",     "id": "body",           "label": "Body",           "default": "One full-body photo. PrimeStyle extracts measurements and returns a recommended size from your Shopify catalog." },
+        { "type": "image_picker", "id": "image",          "label": "Visual" },
+        { "type": "text",         "id": "fallback_asset", "label": "Fallback asset filename",  "info": "File inside assets/ (used when no image is uploaded)" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · Features (tabs)",
+    "blocks": [
+      { "type": "tab", "settings": { "tab_label": "Photo Sizing", "title": "AI Sizing by Photo",           "body": "One full-body photo. PrimeStyle extracts measurements and returns a recommended size from your Shopify catalog.",                                  "fallback_asset": "ps-finalizing-pose.png" } },
+      { "type": "tab", "settings": { "tab_label": "Smart Sizing", "title": "Smart Size Recommendation",    "body": "Height, weight, age, and body-specific questions — separate flows for men and women. Matched to your Shopify size chart.",                            "fallback_asset": "ps-raw-01-sizing.jpg" } },
+      { "type": "tab", "settings": { "tab_label": "Try-On",       "title": "Virtual Try-On",               "body": "Once the size is found, shoppers see the garment on themselves — inside your Shopify product page.",                                                     "fallback_asset": "ps-raw-06-tryon.jpg" } },
+      { "type": "tab", "settings": { "tab_label": "Your Charts",  "title": "Trained on Your Size Chart",   "body": "Upload a CSV in the Shopify admin. PrimeStyle learns your sizes and recommends fit based on your catalog. Not industry averages.",                      "fallback_asset": "ps-recommended-size.png" } }
+    ]
+  }]
+}
+{% endschema %}

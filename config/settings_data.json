@@ -8,11 +8,11 @@
           "settings": {
             "background": "#FFFFFF",
             "background_gradient": "",
-            "text": "#121212",
-            "button": "#121212",
+            "text": "#1C1D1E",
+            "button": "#2154EF",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#121212",
-            "shadow": "#121212"
+            "secondary_button_label": "#1C1D1E",
+            "shadow": "#1C1D1E"
           }
         },
         "scheme-2": {

@@ -1,0 +1,64 @@
+{% comment %}
+  PrimeStyle price display — clean version of Dawn's price snippet.
+  Handles regular, sale, range, sold-out states.
+
+  Accepts:
+  - product:        Product object (required)
+  - use_variant:    Use selected/first variant pricing instead of overall product
+  - show_badges:    Render Sale / Sold Out badges
+  - size:           sm | md | lg   (default: md)
+  - align:          left | center  (default: left)
+{% endcomment %}
+
+{%- liquid
+  if use_variant
+    assign target = product.selected_or_first_available_variant
+  else
+    assign target = product
+  endif
+
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price | default: 0
+  assign price_min = product.price_min
+  assign available = target.available
+
+  if settings.currency_code_enabled
+    assign money_price = price | money_with_currency
+    assign money_compare = compare_at_price | money_with_currency
+    assign money_min = price_min | money_with_currency
+  else
+    assign money_price = price | money
+    assign money_compare = compare_at_price | money
+    assign money_min = price_min | money
+  endif
+
+  assign on_sale = false
+  if compare_at_price > price
+    assign on_sale = true
+  endif
+
+  assign price_varies = product.price_varies
+  assign _size = size | default: 'md'
+  assign _align = align | default: 'left'
+-%}
+
+<div class="ps-price ps-price--{{ _size }} ps-price--align-{{ _align }}{% if on_sale %} ps-price--sale{% endif %}{% unless available %} ps-price--sold-out{% endunless %}">
+  {%- if price_varies and use_variant != true -%}
+    <span class="ps-price__from">From</span>
+    <span class="ps-price__amount">{{ money_min }}</span>
+  {%- else -%}
+    <span class="ps-price__amount">{{ money_price }}</span>
+    {%- if on_sale -%}
+      <s class="ps-price__compare">{{ money_compare }}</s>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if show_badges -%}
+    {%- if on_sale -%}
+      <span class="ps-badge ps-badge--sale">Sale</span>
+    {%- endif -%}
+    {%- unless available -%}
+      <span class="ps-badge ps-badge--sold-out">Sold out</span>
+    {%- endunless -%}
+  {%- endif -%}
+</div>

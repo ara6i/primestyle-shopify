@@ -1,0 +1,67 @@
+{% comment %}
+  PrimeStyle Featured Products — uses real Shopify collection data.
+{% endcomment %}
+
+{%- liquid
+  assign collection = collections[section.settings.collection]
+  assign products_to_show = section.settings.products_to_show | default: 8
+-%}
+
+<section class="ps-root ps-featured">
+  {%- render 'ps-section-heading',
+    eyebrow: section.settings.eyebrow,
+    title: section.settings.title,
+    subtitle: section.settings.subtitle
+  -%}
+
+  <div class="ps-featured__grid" data-ps-stagger>
+    {%- if collection.products.size > 0 -%}
+      {%- for product in collection.products limit: products_to_show -%}
+        {%- render 'ps-card-product',
+          card_product: product,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_tryon_badge: section.settings.show_tryon_badge,
+          show_vendor: section.settings.show_vendor,
+          media_aspect: 'portrait'
+        -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..products_to_show) -%}
+        {%- render 'ps-card-product', card_product: blank, media_aspect: 'portrait' -%}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_view_all -%}
+    <div class="ps-featured__footer" data-ps-reveal="fade">
+      {%- render 'ps-button',
+        label: section.settings.view_all_label,
+        href: collection.url | default: '/collections/all',
+        variant: 'tunal',
+        size: 'lg',
+        icon: 'arrow-right'
+      -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "PS · Featured products",
+  "tag": "section",
+  "class": "ps-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop the collection" },
+    { "type": "text", "id": "title", "label": "Headline", "default": "Pieces made for you" },
+    { "type": "textarea", "id": "subtitle", "label": "Subhead", "default": "Hand-picked styles ready to try on, in your size." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 4, "max": 12, "step": 1, "default": 8 },
+    { "type": "checkbox", "id": "show_secondary_image", "label": "Show secondary image on hover", "default": true },
+    { "type": "checkbox", "id": "show_tryon_badge", "label": "Show Try-On badge", "default": true },
+    { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": false },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show 'View all' button", "default": true },
+    { "type": "text", "id": "view_all_label", "label": "View all label", "default": "View all products" }
+  ],
+  "presets": [{ "name": "PS · Featured products" }]
+}
+{% endschema %}

@@ -1,0 +1,69 @@
+{% comment %}
+  PrimeStyle Testimonials — 3-card grid with quote, avatar, name, role.
+{% endcomment %}
+
+<section class="ps-root ps-testimonials">
+  {%- render 'ps-section-heading',
+    eyebrow: section.settings.eyebrow,
+    title: section.settings.title,
+    subtitle: section.settings.subtitle
+  -%}
+
+  <div class="ps-testimonials__grid" data-ps-stagger>
+    {%- for block in section.blocks -%}
+      <article class="ps-testimonial" data-ps-reveal {{ block.shopify_attributes }}>
+        <svg class="ps-testimonial__quote-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M9 7H6a3 3 0 0 0-3 3v3a3 3 0 0 0 3 3h1v2a2 2 0 0 1-2 2v2a4 4 0 0 0 4-4v-7a3 3 0 0 0-3-3zm12 0h-3a3 3 0 0 0-3 3v3a3 3 0 0 0 3 3h1v2a2 2 0 0 1-2 2v2a4 4 0 0 0 4-4v-7a3 3 0 0 0-3-3z"/>
+        </svg>
+        <p class="ps-testimonial__text">{{ block.settings.quote }}</p>
+        <div class="ps-testimonial__author">
+          <div class="ps-testimonial__avatar">
+            {%- if block.settings.avatar -%}
+              {{ block.settings.avatar | image_url: width: 96 | image_tag: alt: block.settings.name, loading: 'lazy' }}
+            {%- else -%}
+              {{ block.settings.name | slice: 0, 1 }}
+            {%- endif -%}
+          </div>
+          <div>
+            <div class="ps-testimonial__name">{{ block.settings.name }}</div>
+            <div class="ps-testimonial__role">{{ block.settings.role }}</div>
+          </div>
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Testimonials",
+  "tag": "section",
+  "class": "ps-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Loved by shoppers" },
+    { "type": "text", "id": "title", "label": "Headline", "default": "What our customers are saying" },
+    { "type": "textarea", "id": "subtitle", "label": "Subhead", "default": "Real reviews from people who finally stopped guessing their size." }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "I never used to buy clothes online — too risky. Now I just upload a photo and I know exactly how things will look." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Sarah K." },
+        { "type": "text", "id": "role", "label": "Role / location", "default": "New York, NY" },
+        { "type": "image_picker", "id": "avatar", "label": "Avatar" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · Testimonials",
+    "blocks": [
+      { "type": "testimonial", "settings": { "quote": "I never used to buy clothes online — too risky. Now I just upload a photo and I know exactly how things will look.", "name": "Sarah K.", "role": "New York, NY" } },
+      { "type": "testimonial", "settings": { "quote": "The size recommendations are scary accurate. I haven't returned a single piece since I started using this.", "name": "Marcus D.", "role": "London, UK" } },
+      { "type": "testimonial", "settings": { "quote": "Game changer for my closet. I shop with confidence now and the AI stylist suggestions are spot on.", "name": "Elena R.", "role": "Madrid, ES" } }
+    ]
+  }]
+}
+{% endschema %}

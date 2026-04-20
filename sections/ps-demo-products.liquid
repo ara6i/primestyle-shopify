@@ -1,0 +1,84 @@
+{% comment %}
+  PS-DEMO-PRODUCTS — DAY2DAY style editorial product listing
+{% endcomment %}
+
+{{ 'ps-demo.css' | asset_url | stylesheet_tag }}
+
+<div class="ps-coll-page" id="ps-demo-products-page">
+
+  {%- comment -%} ── Page header ── {%- endcomment -%}
+  <div class="ps-coll-header">
+    <h1 class="ps-coll-brand">PrimeStyle AI</h1>
+    <a href="#" class="ps-coll-shop-more">Shop more</a>
+  </div>
+
+  {%- comment -%} ── Filter / sort bar ── {%- endcomment -%}
+  <div class="ps-coll-toolbar">
+    <div class="ps-coll-filters">
+      <button class="ps-coll-filter-btn" type="button">
+        Product type
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <button class="ps-coll-filter-btn" type="button">
+        Price
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <button class="ps-coll-filter-btn" type="button">
+        Availability
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="ps-coll-sort-row">
+      <span class="ps-coll-item-count" id="ps-products-count"></span>
+      <button class="ps-coll-filter-btn" type="button">
+        Sort
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+      <div class="ps-coll-view-btns">
+        <button class="ps-coll-view-btn ps-coll-view-btn--active" data-cols="3" type="button" aria-label="3 columns">
+          <svg viewBox="0 0 18 18" fill="currentColor"><rect x="0" y="0" width="5" height="18"/><rect x="6.5" y="0" width="5" height="18"/><rect x="13" y="0" width="5" height="18"/></svg>
+        </button>
+        <button class="ps-coll-view-btn" data-cols="4" type="button" aria-label="4 columns">
+          <svg viewBox="0 0 18 18" fill="currentColor"><rect x="0" y="0" width="3.5" height="18"/><rect x="4.8" y="0" width="3.5" height="18"/><rect x="9.6" y="0" width="3.5" height="18"/><rect x="14.5" y="0" width="3.5" height="18"/></svg>
+        </button>
+        <button class="ps-coll-view-btn" data-cols="6" type="button" aria-label="6 columns">
+          <svg viewBox="0 0 18 18" fill="currentColor"><rect x="0" y="0" width="2" height="18"/><rect x="3.2" y="0" width="2" height="18"/><rect x="6.4" y="0" width="2" height="18"/><rect x="9.6" y="0" width="2" height="18"/><rect x="12.8" y="0" width="2" height="18"/><rect x="16" y="0" width="2" height="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ps-coll-divider"></div>
+
+  {%- comment -%} ── Product grid ── {%- endcomment -%}
+  <div class="ps-coll-grid ps-coll-grid--3" id="ps-products-grid">
+    <div class="ps-coll-loading">Loading…</div>
+  </div>
+
+</div>
+
+<script>
+  window.__psDemoProductsDetailUrl = '/pages/{{ section.settings.detail_page_handle | default: "demo-product" }}';
+</script>
+<script src="{{ 'ps-demo-products.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "PS Demo Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "api_base",
+      "label": "Backend API base URL",
+      "default": "http://localhost:4000"
+    },
+    {
+      "type": "text",
+      "id": "detail_page_handle",
+      "label": "Detail page handle",
+      "default": "demo-product"
+    }
+  ],
+  "presets": [{ "name": "PS Demo Products" }]
+}
+{% endschema %}

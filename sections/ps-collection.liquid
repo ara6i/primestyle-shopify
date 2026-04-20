@@ -1,0 +1,261 @@
+{% comment %}
+  PrimeStyle Collection — banner + filters + sort + grid + pagination.
+  Reuses Dawn's <facet-filters-form> custom element so filtering/sorting
+  remain live (URL-aware, no full reload). Visual treatment is fully replaced.
+{% endcomment %}
+
+{{ 'component-show-more.css' | asset_url | stylesheet_tag }}
+{{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
+{{ 'component-swatch.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+
+<section class="ps-root ps-collection">
+  {% comment %} ----- BANNER ----- {% endcomment %}
+  <header class="ps-collection__banner" data-ps-reveal="fade">
+    <div class="ps-collection__banner-inner">
+      {%- if section.settings.show_eyebrow -%}
+        <span class="ps-eyebrow">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.39 6.45L21 11l-6.61 2.55L12 20l-2.39-6.45L3 11l6.61-2.55z"/></svg>
+          Collection
+        </span>
+      {%- endif -%}
+      <h1 class="ps-collection__title">{{ collection.title | default: 'All products' }}</h1>
+      {%- if section.settings.show_description and collection.description != blank -%}
+        <div class="ps-collection__description">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+  </header>
+
+  {% comment %} ----- TOOLBAR + GRID ----- {% endcomment %}
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    {%- liquid
+      assign sort_by = collection.sort_by | default: collection.default_sort_by
+      assign results_url = collection.url
+    -%}
+
+    <div class="ps-collection__main">
+      {% comment %} ----- TOOLBAR (filters + sort + count) ----- {% endcomment %}
+      <facet-filters-form class="ps-facets">
+        <form id="FacetFiltersForm" class="ps-facets__form">
+          <div class="ps-toolbar">
+            <div class="ps-toolbar__left">
+              {%- if section.settings.enable_filtering and collection.filters.size > 0 -%}
+                <div class="ps-filter-chips">
+                  {%- for filter in collection.filters -%}
+                    {%- case filter.type -%}
+                      {%- when 'list', 'boolean' -%}
+                        <details class="ps-filter-chip" data-filter-type="{{ filter.type }}">
+                          <summary class="ps-filter-chip__trigger">
+                            <span>{{ filter.label }}</span>
+                            {%- if filter.active_values.size > 0 -%}
+                              <span class="ps-filter-chip__count">{{ filter.active_values.size }}</span>
+                            {%- endif -%}
+                            <svg class="ps-filter-chip__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                          </summary>
+                          <div class="ps-filter-chip__panel">
+                            <ul class="ps-filter-chip__list">
+                              {%- for value in filter.values -%}
+                                <li>
+                                  <label class="ps-checkbox">
+                                    <input
+                                      type="checkbox"
+                                      name="{{ value.param_name }}"
+                                      value="{{ value.value }}"
+                                      {% if value.active %}checked{% endif %}
+                                      {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                                    >
+                                    <span>{{ value.label }} <span class="ps-filter-chip__num">({{ value.count }})</span></span>
+                                  </label>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          </div>
+                        </details>
+
+                      {%- when 'price_range' -%}
+                        <details class="ps-filter-chip ps-filter-chip--price">
+                          <summary class="ps-filter-chip__trigger">
+                            <span>{{ filter.label }}</span>
+                            {%- if filter.min_value.value or filter.max_value.value -%}
+                              <span class="ps-filter-chip__count">·</span>
+                            {%- endif -%}
+                            <svg class="ps-filter-chip__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                          </summary>
+                          <div class="ps-filter-chip__panel ps-filter-chip__panel--price">
+                            <div class="ps-price-range">
+                              <label class="ps-price-range__field">
+                                <span>From</span>
+                                <input
+                                  class="ps-input"
+                                  name="{{ filter.min_value.param_name }}"
+                                  type="number"
+                                  min="0"
+                                  max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                  inputmode="decimal"
+                                  placeholder="{{ 0 | money_without_currency }}"
+                                  {% if filter.min_value.value %}value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                                >
+                              </label>
+                              <label class="ps-price-range__field">
+                                <span>To</span>
+                                <input
+                                  class="ps-input"
+                                  name="{{ filter.max_value.param_name }}"
+                                  type="number"
+                                  min="0"
+                                  max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                  inputmode="decimal"
+                                  placeholder="{{ filter.range_max | money_without_currency }}"
+                                  {% if filter.max_value.value %}value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                                >
+                              </label>
+                            </div>
+                          </div>
+                        </details>
+                    {%- endcase -%}
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="ps-toolbar__right">
+              <div class="ps-product-count" role="status">
+                <span id="ProductCountDesktop">
+                  {%- if collection.products_count == collection.all_products_count -%}
+                    {{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}
+                  {%- else -%}
+                    {{ collection.products_count }} of {{ collection.all_products_count }}
+                  {%- endif -%}
+                </span>
+              </div>
+
+              {%- if section.settings.enable_sorting -%}
+                <div class="ps-select">
+                  <select
+                    name="sort_by"
+                    aria-label="Sort by"
+                    id="SortBy"
+                  >
+                    {%- for option in collection.sort_options -%}
+                      <option value="{{ option.value | escape }}" {% if option.value == sort_by %}selected{% endif %}>
+                        {{ option.name | escape }}
+                      </option>
+                    {%- endfor -%}
+                  </select>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+
+          {% comment %} ----- ACTIVE FILTER PILLS ----- {% endcomment %}
+          {%- assign active_total = 0 -%}
+          {%- for filter in collection.filters -%}
+            {%- assign active_total = active_total | plus: filter.active_values.size -%}
+            {%- if filter.type == 'price_range' and filter.min_value.value or filter.max_value.value -%}
+              {%- assign active_total = active_total | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if active_total > 0 -%}
+            <div class="ps-active-filters" role="status">
+              {%- for filter in collection.filters -%}
+                {%- for value in filter.active_values -%}
+                  <facet-remove>
+                    <a href="{{ value.url_to_remove }}" class="ps-active-pill">
+                      <span>{{ filter.label }}: {{ value.label }}</span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </a>
+                  </facet-remove>
+                {%- endfor -%}
+                {%- if filter.type == 'price_range' and filter.min_value.value or filter.max_value.value -%}
+                  <facet-remove>
+                    <a href="{{ filter.url_to_remove }}" class="ps-active-pill">
+                      <span>{{ filter.min_value.value | default: 0 | money }} – {{ filter.max_value.value | default: filter.range_max | money }}</span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </a>
+                  </facet-remove>
+                {%- endif -%}
+              {%- endfor -%}
+              <facet-remove class="ps-active-filters__clear">
+                <a href="{{ results_url }}">Clear all</a>
+              </facet-remove>
+            </div>
+          {%- endif -%}
+        </form>
+      </facet-filters-form>
+
+      {% comment %} ----- PRODUCT GRID ----- {% endcomment %}
+      <div id="ProductGridContainer">
+        {%- if collection.products.size == 0 -%}
+          <div class="ps-empty-state">
+            <div class="ps-empty-state__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <h3>No products match your filters</h3>
+            <p>Try removing a filter or browsing the full collection.</p>
+            {%- render 'ps-button', label: 'Clear filters', href: results_url, variant: 'outline', size: 'md' -%}
+          </div>
+        {%- else -%}
+          <ul class="ps-product-grid" id="product-grid" data-ps-stagger>
+            {%- for product in collection.products -%}
+              <li class="ps-product-grid__item">
+                {%- render 'ps-card-product',
+                  card_product: product,
+                  show_secondary_image: section.settings.show_secondary_image,
+                  show_tryon_badge: section.settings.show_tryon_badge,
+                  show_vendor: section.settings.show_vendor,
+                  media_aspect: 'portrait'
+                -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="ps-pagination" aria-label="Pagination">
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}" class="ps-pagination__btn ps-pagination__btn--prev" aria-label="Previous page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+              </a>
+            {%- endif -%}
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="ps-pagination__btn">{{ part.title }}</a>
+              {%- else -%}
+                {%- if part.title == paginate.current_page -%}
+                  <span class="ps-pagination__btn ps-pagination__btn--active" aria-current="page">{{ part.title }}</span>
+                {%- else -%}
+                  <span class="ps-pagination__btn ps-pagination__btn--ellipsis">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}" class="ps-pagination__btn ps-pagination__btn--next" aria-label="Next page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+              </a>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "PS · Collection",
+  "tag": "section",
+  "class": "ps-section",
+  "settings": [
+    { "type": "checkbox", "id": "show_eyebrow", "label": "Show eyebrow label", "default": true },
+    { "type": "checkbox", "id": "show_description", "label": "Show collection description", "default": true },
+    { "type": "checkbox", "id": "enable_filtering", "label": "Enable filtering", "default": true },
+    { "type": "checkbox", "id": "enable_sorting", "label": "Enable sorting", "default": true },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 36, "step": 4, "default": 16 },
+    { "type": "checkbox", "id": "show_secondary_image", "label": "Show secondary image on hover", "default": true },
+    { "type": "checkbox", "id": "show_tryon_badge", "label": "Show Try-On badge", "default": true },
+    { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": false }
+  ],
+  "presets": [{ "name": "PS · Collection" }]
+}
+{% endschema %}

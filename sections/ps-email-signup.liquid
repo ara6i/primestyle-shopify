@@ -1,0 +1,57 @@
+{% comment %}
+  PS Newsletter — email capture using Shopify native customer form.
+{% endcomment %}
+
+<section class="ps-root ps-newsletter">
+  <div class="ps-newsletter__inner" data-ps-reveal="fade-up" data-ps-stagger>
+    {%- if section.settings.heading != blank -%}
+      <h2 class="ps-newsletter__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <p class="ps-newsletter__desc">{{ section.settings.description }}</p>
+    {%- endif -%}
+
+    {%- form 'customer', class: 'ps-newsletter__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+
+      <label for="ps-newsletter-email-{{ section.id }}" class="ps-visually-hidden">Email</label>
+      <input
+        type="email"
+        name="contact[email]"
+        id="ps-newsletter-email-{{ section.id }}"
+        class="ps-newsletter__input"
+        placeholder="{{ section.settings.placeholder }}"
+        autocomplete="email"
+        required>
+
+      <button type="submit" class="ps-btn ps-btn--primary ps-btn--md">
+        <span>{{ section.settings.button_label }}</span>
+      </button>
+
+      {%- if form.posted_successfully? -%}
+        <p class="ps-newsletter__success">{{ section.settings.success_message }}</p>
+      {%- endif -%}
+
+      {%- if form.errors -%}
+        <p class="ps-newsletter__error">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS Newsletter",
+  "tag": "section",
+  "class": "ps-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Stay updated" },
+    { "type": "text", "id": "description", "label": "Description", "default": "Get launch news and sizing research." },
+    { "type": "text", "id": "placeholder", "label": "Placeholder", "default": "Enter your email" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks for subscribing." }
+  ],
+  "presets": [{ "name": "PS Newsletter" }]
+}
+{% endschema %}

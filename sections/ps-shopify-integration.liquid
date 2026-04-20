@@ -1,0 +1,91 @@
+{% comment %}
+  PS Shopify Integration — single Shopify-focused showcase.
+  Two-column layout: copy left, looping GIF right.
+{% endcomment %}
+
+{%- liquid
+  assign media = section.settings.media_asset | default: 'ps-shopify-demo.gif'
+-%}
+
+<section class="ps-root ps-shopify" id="shopify">
+  <div class="ps-shopify__inner">
+    <div class="ps-shopify__copy" data-ps-reveal="fade-right" data-ps-stagger>
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="ps-eyebrow">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2l2.39 6.45L21 11l-6.61 2.55L12 20l-2.39-6.45L3 11l6.61-2.55z"/>
+          </svg>
+          {{ section.settings.eyebrow }}
+        </span>
+      {%- endif -%}
+
+      <h2 class="ps-shopify__title">{{ section.settings.title }}</h2>
+
+      {%- if section.settings.body != blank -%}
+        <div class="ps-shopify__body">{{ section.settings.body }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.status_label != blank -%}
+        <span class="ps-shopify__status">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+          </svg>
+          {{ section.settings.status_label }}
+        </span>
+      {%- endif -%}
+
+      <div class="ps-shopify__actions">
+        {%- if section.settings.primary_label != blank -%}
+          {%- render 'ps-button',
+            label: section.settings.primary_label,
+            href: section.settings.primary_link,
+            variant: 'primary',
+            size: 'lg',
+            icon: 'arrow-right'
+          -%}
+        {%- endif -%}
+        {%- if section.settings.secondary_label != blank -%}
+          {%- render 'ps-button',
+            label: section.settings.secondary_label,
+            href: section.settings.secondary_link,
+            variant: 'outline',
+            size: 'lg'
+          -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="ps-shopify__media" data-ps-reveal="fade-left">
+      <div class="ps-shopify__media-frame">
+        <img
+          src="{{ media | asset_url }}"
+          alt="{{ section.settings.title | default: 'PrimeStyle on Shopify' | escape }}"
+          class="ps-shopify__media-img"
+          width="960"
+          height="710"
+          loading="lazy"
+          decoding="async">
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Shopify integration",
+  "tag": "section",
+  "class": "ps-section ps-section--shopify",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",         "label": "Eyebrow",        "default": "Built for Shopify" },
+    { "type": "text",     "id": "title",           "label": "Title",          "default": "Native Shopify app. Trained on your sizes." },
+    { "type": "richtext", "id": "body",            "label": "Body",           "default": "<p>Installs from the Shopify App Store in minutes. Themed automatically to match your store. Live on every product page — no theme edits, no engineering, no maintenance tax.</p>" },
+    { "type": "text",     "id": "status_label",    "label": "Status pill",    "default": "Available today" },
+    { "type": "text",     "id": "media_asset",     "label": "Media asset filename (in assets/)", "info": "Defaults to ps-shopify-demo.gif", "default": "ps-shopify-demo.gif" },
+    { "type": "text",     "id": "primary_label",   "label": "Primary CTA label", "default": "Install on Shopify" },
+    { "type": "url",      "id": "primary_link",    "label": "Primary CTA link" },
+    { "type": "text",     "id": "secondary_label", "label": "Secondary CTA label", "default": "See it in action" },
+    { "type": "url",      "id": "secondary_link",  "label": "Secondary CTA link" }
+  ],
+  "presets": [{ "name": "PS · Shopify integration" }]
+}
+{% endschema %}

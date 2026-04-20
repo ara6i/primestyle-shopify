@@ -1,0 +1,60 @@
+{% comment %}
+  PS Final CTA — rounded gradient banner (75vw) centered on a white background.
+  Mirrors prime-products CtaBannerSection.
+{% endcomment %}
+
+<section class="ps-root ps-cta-banner">
+  <div class="ps-cta-banner__card" data-ps-reveal="scale">
+    <div class="ps-cta-banner__gradient" aria-hidden="true"></div>
+    <div class="ps-cta-banner__overlay" aria-hidden="true"></div>
+
+    <h2 class="ps-cta-banner__title">{{ section.settings.title }}</h2>
+
+    {%- if section.settings.body != blank -%}
+      <p class="ps-cta-banner__subtitle">{{ section.settings.body }}</p>
+    {%- endif -%}
+
+    <div class="ps-cta-banner__actions">
+      {%- if section.settings.primary_label != blank -%}
+        {%- render 'ps-button',
+          label: section.settings.primary_label,
+          href: section.settings.primary_link,
+          variant: 'white',
+          size: 'xl',
+          icon: 'arrow-right'
+        -%}
+      {%- endif -%}
+      {%- if section.settings.secondary_label != blank -%}
+        {%- render 'ps-button',
+          label: section.settings.secondary_label,
+          href: section.settings.secondary_link,
+          variant: 'outline',
+          size: 'xl',
+          extra_class: 'ps-btn--on-gradient'
+        -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.footer != blank -%}
+      <p class="ps-cta-banner__footer">{{ section.settings.footer }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Final CTA",
+  "tag": "section",
+  "class": "ps-section",
+  "settings": [
+    { "type": "text",     "id": "title",           "label": "Title", "default": "Match every shopper to the right size." },
+    { "type": "textarea", "id": "body",            "label": "Body",  "default": "Install PrimeStyle AI from the Shopify App Store and end size returns." },
+    { "type": "text",     "id": "primary_label",   "label": "Primary CTA",   "default": "Install on Shopify" },
+    { "type": "url",      "id": "primary_link",    "label": "Primary link" },
+    { "type": "text",     "id": "secondary_label", "label": "Secondary CTA", "default": "See it in action" },
+    { "type": "url",      "id": "secondary_link",  "label": "Secondary link" },
+    { "type": "text",     "id": "footer",          "label": "Footer microcopy", "default": "Free tier · Shopify App Store · No credit card required · 5-minute setup" }
+  ],
+  "presets": [{ "name": "PS · Final CTA" }]
+}
+{% endschema %}

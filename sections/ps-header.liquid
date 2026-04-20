@@ -1,0 +1,96 @@
+{% comment %}
+  PS Header — sticky transparent-on-top header with logo, nav, install CTA.
+{% endcomment %}
+
+<header class="ps-root ps-header" data-ps-header>
+  <div class="ps-header__inner">
+    <a href="{{ routes.root_url }}" class="ps-header__brand" aria-label="{{ shop.name | default: 'PrimeStyle AI' }}">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 320 | image_tag:
+          loading: 'eager',
+          alt: shop.name,
+          class: 'ps-header__logo-img',
+          widths: '160, 240, 320, 480'
+        }}
+      {%- else -%}
+        <img src="{{ 'ps-logo-navbar.png' | asset_url }}"
+             alt="{{ shop.name | default: 'PrimeStyle AI' }}"
+             class="ps-header__logo-img"
+             loading="eager"
+             width="160"
+             height="36">
+      {%- endif -%}
+    </a>
+
+    <nav class="ps-header__nav" aria-label="Primary">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link' -%}
+          <a href="{{ block.settings.link }}" class="ps-header__nav-link" {{ block.shopify_attributes }}>
+            {{ block.settings.label }}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    <div class="ps-header__actions">
+      {%- if section.settings.cta_label != blank -%}
+        {%- render 'ps-button',
+          label: section.settings.cta_label,
+          href: section.settings.cta_link,
+          variant: 'primary',
+          size: 'lg',
+          icon: 'arrow-right'
+        -%}
+      {%- endif -%}
+      <button type="button" class="ps-header__menu-toggle" aria-label="Open menu" data-ps-menu-toggle>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="ps-header__mobile" data-ps-mobile-menu hidden>
+    <nav aria-label="Mobile">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link' -%}
+          <a href="{{ block.settings.link }}" class="ps-header__mobile-link">{{ block.settings.label }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_link }}" class="ps-btn ps-btn--primary ps-btn--lg ps-btn--block">{{ section.settings.cta_label }}</a>
+      {%- endif -%}
+    </nav>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "PS · Header",
+  "tag": "section",
+  "class": "ps-section ps-section--header",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo image" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Install on Shopify" },
+    { "type": "url",  "id": "cta_link",  "label": "CTA link" }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Nav link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Features" },
+        { "type": "url",  "id": "link",  "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · Header",
+    "blocks": [
+      { "type": "link", "settings": { "label": "Features" } },
+      { "type": "link", "settings": { "label": "How it works" } },
+      { "type": "link", "settings": { "label": "Pricing" } },
+      { "type": "link", "settings": { "label": "Demo" } }
+    ]
+  }]
+}
+{% endschema %}

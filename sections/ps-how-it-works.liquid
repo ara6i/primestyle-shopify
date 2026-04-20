@@ -1,0 +1,79 @@
+{% comment %}
+  PS How It Works — 4 numbered steps with generated illustrations.
+{% endcomment %}
+
+<section class="ps-root ps-how" id="how-it-works">
+  <div class="ps-how__inner">
+    {%- render 'ps-section-heading',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.title
+    -%}
+
+    <ol class="ps-how__list" data-ps-stagger>
+      {%- for block in section.blocks -%}
+        <li class="ps-how-step" data-ps-reveal {{ block.shopify_attributes }}>
+          <div class="ps-how-step__visual">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 400 | image_tag:
+                loading: 'lazy',
+                alt: block.settings.title,
+                class: 'ps-how-step__img'
+              }}
+            {%- elsif block.settings.icon_asset != blank -%}
+              <img
+                src="{{ block.settings.icon_asset | asset_url }}"
+                alt="{{ block.settings.title }}"
+                class="ps-how-step__img"
+                loading="lazy"
+                width="200"
+                height="200">
+            {%- else -%}
+              <div class="ps-how-step__num">
+                <span>0{{ forloop.index }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="ps-how-step__body">
+            <span class="ps-how-step__label">Step 0{{ forloop.index }}</span>
+            <h3 class="ps-how-step__title">{{ block.settings.title }}</h3>
+            <p class="ps-how-step__desc">{{ block.settings.description }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · How it works",
+  "tag": "section",
+  "class": "ps-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Setup" },
+    { "type": "text", "id": "title",   "label": "Title",   "default": "Live in minutes." }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text",         "id": "title",       "label": "Title",       "default": "Install" },
+        { "type": "textarea",     "id": "description", "label": "Description", "default": "From the Shopify App Store." },
+        { "type": "image_picker", "id": "image",       "label": "Step image (overrides icon)" },
+        { "type": "text",         "id": "icon_asset",  "label": "Asset filename (e.g. ps-step-install.png)" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · How it works",
+    "blocks": [
+      { "type": "step", "settings": { "title": "Install",   "description": "From the Shopify App Store.", "icon_asset": "ps-step-install.png" } },
+      { "type": "step", "settings": { "title": "Upload",    "description": "Your size chart as a CSV.",   "icon_asset": "ps-step-upload.png" } },
+      { "type": "step", "settings": { "title": "Customize", "description": "The widget to match your brand.", "icon_asset": "ps-step-customize.png" } },
+      { "type": "step", "settings": { "title": "Go live",   "description": "On every product page.",      "icon_asset": "ps-step-golive.png" } }
+    ]
+  }]
+}
+{% endschema %}

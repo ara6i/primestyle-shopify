@@ -1,0 +1,307 @@
+{% comment %}
+  PS SDK Demo — auto-advancing step flows with clickable dots.
+  Mirrors prime-products SdkDemoSection: two flows, each a <ps-autoadvance>.
+  Flow 1: Smart Size Finder (3 steps)
+  Flow 2: Virtual Try-On (2 steps)
+{% endcomment %}
+
+<section class="ps-root ps-sdk-demo" id="sdk-demo">
+
+  {%- comment -%} ── Section heading ── {%- endcomment -%}
+  <div class="ps-sdk-demo__head" data-ps-reveal="fade">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="ps-eyebrow">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2l2.39 6.45L21 11l-6.61 2.55L12 20l-2.39-6.45L3 11l6.61-2.55z"/>
+        </svg>
+        {{ section.settings.eyebrow }}
+      </span>
+    {%- endif -%}
+    <h2 class="ps-sdk-demo__title">{{ section.settings.title }}</h2>
+    {%- if section.settings.subtitle != blank -%}
+      <p class="ps-sdk-demo__subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ═══════════════ Flow 1 — Smart Size Finder (3 steps) ═══════════════ {%- endcomment -%}
+
+  {%- liquid
+    assign flow1_steps = 3
+    assign flow2_steps = 2
+  -%}
+
+  <ps-autoadvance class="ps-ad" data-interval="5000">
+    <div class="ps-ad__inner">
+      {%- comment -%} LEFT column: progress + slides {%- endcomment -%}
+      <div class="ps-ad__copy">
+
+        <div class="ps-ad__progress" role="tablist" aria-label="Smart Size Finder steps">
+          {%- comment -%} Step 01 dot + label + bar {%- endcomment -%}
+          <button type="button" class="ps-ad-dot ps-ad-dot--active" data-ad-dot role="tab" aria-selected="true">01</button>
+          <span class="ps-ad__label">Sizing</span>
+          <button type="button" class="ps-ad__bar" data-ad-bar aria-label="Jump to step 2"><span class="ps-ad__bar-fill" data-ad-bar-fill></span></button>
+
+          <button type="button" class="ps-ad-dot" data-ad-dot role="tab" aria-selected="false">02</button>
+          <span class="ps-ad__label">Body</span>
+          <button type="button" class="ps-ad__bar" data-ad-bar aria-label="Jump to step 3"><span class="ps-ad__bar-fill" data-ad-bar-fill></span></button>
+
+          <button type="button" class="ps-ad-dot" data-ad-dot role="tab" aria-selected="false">03</button>
+          <span class="ps-ad__label">Your Fit</span>
+        </div>
+
+        <div class="ps-ad__slides">
+
+          <div class="ps-ad-slide ps-ad-slide--active" data-ad-slide>
+            <span class="ps-ad-slide__tag">{{ section.settings.flow1_tag }}</span>
+            <h3 class="ps-ad-slide__title">{{ section.settings.flow1_title }}</h3>
+            <p class="ps-ad-slide__body">{{ section.settings.flow1_body }}</p>
+            <ul class="ps-ad-slide__badges">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'badge' and block.settings.flow == '1' -%}
+                  <li {{ block.shopify_attributes }}>
+                    <span class="ps-ad-slide__check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    {{ block.settings.text }}
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+
+          <div class="ps-ad-slide" data-ad-slide aria-hidden="true">
+            <span class="ps-ad-slide__tag">{{ section.settings.step2_tag }}</span>
+            <h3 class="ps-ad-slide__title">{{ section.settings.step2_title }}</h3>
+            <p class="ps-ad-slide__body">{{ section.settings.step2_body }}</p>
+            <ul class="ps-ad-slide__badges">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'badge' and block.settings.flow == '2' -%}
+                  <li {{ block.shopify_attributes }}>
+                    <span class="ps-ad-slide__check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    {{ block.settings.text }}
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+
+          <div class="ps-ad-slide" data-ad-slide aria-hidden="true">
+            <span class="ps-ad-slide__tag">{{ section.settings.step3_tag }}</span>
+            <h3 class="ps-ad-slide__title">{{ section.settings.step3_title }}</h3>
+            <p class="ps-ad-slide__body">{{ section.settings.step3_body }}</p>
+            <ul class="ps-ad-slide__badges">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'badge' and block.settings.flow == '3' -%}
+                  <li {{ block.shopify_attributes }}>
+                    <span class="ps-ad-slide__check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    {{ block.settings.text }}
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      {%- comment -%} RIGHT column: cross-fading screenshots {%- endcomment -%}
+      <div class="ps-ad__screen">
+        <div class="ps-ad-image ps-ad-image--active" data-ad-image>
+          {%- if section.settings.screen_sizing != blank -%}
+            {{ section.settings.screen_sizing | image_url: width: 1200 | image_tag:
+              loading: 'lazy', alt: 'Smart Size input form'
+            }}
+          {%- else -%}
+            <img src="{{ 'ps-raw-01-sizing.jpg' | asset_url }}" alt="Smart Size input form" loading="lazy" width="1200" height="752">
+          {%- endif -%}
+        </div>
+        <div class="ps-ad-image" data-ad-image>
+          {%- if section.settings.screen_bodytype != blank -%}
+            {{ section.settings.screen_bodytype | image_url: width: 1200 | image_tag:
+              loading: 'lazy', alt: 'Body type selector'
+            }}
+          {%- else -%}
+            <img src="{{ 'ps-raw-02-bodytype.jpg' | asset_url }}" alt="Body type selector" loading="lazy" width="1200" height="752">
+          {%- endif -%}
+        </div>
+        <div class="ps-ad-image" data-ad-image>
+          {%- if section.settings.screen_fitresult != blank -%}
+            {{ section.settings.screen_fitresult | image_url: width: 1200 | image_tag:
+              loading: 'lazy', alt: 'Fit result'
+            }}
+          {%- else -%}
+            <img src="{{ 'ps-raw-03-fitresult.jpg' | asset_url }}" alt="Fit result" loading="lazy" width="1200" height="752">
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </ps-autoadvance>
+
+  {%- comment -%} ───── Flow 2 divider ───── {%- endcomment -%}
+  <div class="ps-sdk-demo__divider" data-ps-reveal="fade">
+    <span class="ps-eyebrow">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2l2.39 6.45L21 11l-6.61 2.55L12 20l-2.39-6.45L3 11l6.61-2.55z"/>
+      </svg>
+      {{ section.settings.flow2_tag }}
+    </span>
+  </div>
+
+  {%- comment -%} ═══════════════ Flow 2 — Virtual Try-On (2 steps) ═══════════════ {%- endcomment -%}
+
+  <ps-autoadvance class="ps-ad" data-interval="5000">
+    <div class="ps-ad__inner">
+      <div class="ps-ad__copy">
+
+        <div class="ps-ad__progress" role="tablist" aria-label="Virtual Try-On steps">
+          <button type="button" class="ps-ad-dot ps-ad-dot--active" data-ad-dot role="tab" aria-selected="true">01</button>
+          <span class="ps-ad__label">Photo</span>
+          <button type="button" class="ps-ad__bar" data-ad-bar aria-label="Jump to step 2"><span class="ps-ad__bar-fill" data-ad-bar-fill></span></button>
+          <button type="button" class="ps-ad-dot" data-ad-dot role="tab" aria-selected="false">02</button>
+          <span class="ps-ad__label">Your Fit</span>
+        </div>
+
+        <div class="ps-ad__slides">
+
+          <div class="ps-ad-slide ps-ad-slide--active" data-ad-slide>
+            <span class="ps-ad-slide__tag">{{ section.settings.flow2_tag }} · Step 01</span>
+            <h3 class="ps-ad-slide__title">{{ section.settings.vto1_title }}</h3>
+            <p class="ps-ad-slide__body">{{ section.settings.vto1_body }}</p>
+            <ul class="ps-ad-slide__badges">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'badge' and block.settings.flow == 'vto' -%}
+                  <li {{ block.shopify_attributes }}>
+                    <span class="ps-ad-slide__check" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    {{ block.settings.text }}
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+
+          <div class="ps-ad-slide" data-ad-slide aria-hidden="true">
+            <span class="ps-ad-slide__tag">{{ section.settings.flow2_tag }} · Step 02</span>
+            <h3 class="ps-ad-slide__title">{{ section.settings.flow2_title }}</h3>
+            <p class="ps-ad-slide__body">{{ section.settings.flow2_body }}</p>
+            {%- if section.settings.flow2_ai_tag != blank -%}
+              <div class="ps-ad-slide__ai">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" aria-hidden="true">
+                  <path d="M12 2l2.39 6.45L21 11l-6.61 2.55L12 20l-2.39-6.45L3 11l6.61-2.55z"/>
+                </svg>
+                {{ section.settings.flow2_ai_tag }}
+              </div>
+            {%- endif -%}
+          </div>
+
+        </div>
+      </div>
+
+      <div class="ps-ad__screen">
+        <div class="ps-ad-image ps-ad-image--active" data-ad-image>
+          {%- if section.settings.screen_photoguid != blank -%}
+            {{ section.settings.screen_photoguid | image_url: width: 1200 | image_tag:
+              loading: 'lazy', alt: 'Photo upload guide'
+            }}
+          {%- else -%}
+            <img src="{{ 'ps-raw-04-photoguid.jpg' | asset_url }}" alt="Photo upload guide" loading="lazy" width="1200" height="752">
+          {%- endif -%}
+        </div>
+        <div class="ps-ad-image" data-ad-image>
+          {%- if section.settings.screen_tryon != blank -%}
+            {{ section.settings.screen_tryon | image_url: width: 1200 | image_tag:
+              loading: 'lazy', alt: 'Virtual try-on result'
+            }}
+          {%- else -%}
+            <img src="{{ 'ps-raw-06-tryon.jpg' | asset_url }}" alt="Virtual try-on result" loading="lazy" width="1200" height="752">
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </ps-autoadvance>
+
+</section>
+
+<script src="{{ 'ps-sdk-autoadvance.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "PS · SDK Demo",
+  "tag": "section",
+  "class": "ps-section",
+  "max_blocks": 15,
+  "settings": [
+    { "type": "text",     "id": "eyebrow",   "label": "Eyebrow",   "default": "Live in your store" },
+    { "type": "text",     "id": "title",     "label": "Title",     "default": "From guessing to knowing — in seconds." },
+    { "type": "textarea", "id": "subtitle",  "label": "Subtitle",  "default": "Two AI flows. One seamless experience. Built for Shopify." },
+    { "type": "header",   "content": "Flow 1 — Step 1" },
+    { "type": "text",     "id": "flow1_tag",   "label": "Step tag",   "default": "Smart Size Finder" },
+    { "type": "text",     "id": "flow1_title", "label": "Title",      "default": "A size recommendation. In seconds." },
+    { "type": "textarea", "id": "flow1_body",  "label": "Body",       "default": "Shoppers enter height, weight, and a few body-type questions. The Decision Engine matches them to your Shopify size chart — not industry averages — and returns a recommended size in seconds." },
+    { "type": "header",   "content": "Flow 1 — Step 2" },
+    { "type": "text",     "id": "step2_tag",   "label": "Step tag",   "default": "Body Shape" },
+    { "type": "text",     "id": "step2_title", "label": "Title",      "default": "Tell us your shape." },
+    { "type": "textarea", "id": "step2_body",  "label": "Body",       "default": "A few visual questions — narrow, average, or broad. Our engine uses body shape to fine-tune fit, not just raw measurements." },
+    { "type": "header",   "content": "Flow 1 — Step 3" },
+    { "type": "text",     "id": "step3_tag",   "label": "Step tag",   "default": "Perfect Fit" },
+    { "type": "text",     "id": "step3_title", "label": "Title",      "default": "A size aligned to your catalog." },
+    { "type": "textarea", "id": "step3_body",  "label": "Body",       "default": "The Decision Engine returns a recommendation for every piece — jacket, vest, trousers — matched to your Shopify size chart." },
+    { "type": "header",   "content": "Screenshots — Smart Size" },
+    { "type": "image_picker", "id": "screen_sizing",    "label": "Step 1 — Sizing form" },
+    { "type": "image_picker", "id": "screen_bodytype",  "label": "Step 2 — Body type" },
+    { "type": "image_picker", "id": "screen_fitresult", "label": "Step 3 — Fit result" },
+    { "type": "header",   "content": "Flow 2 — Virtual Try-On" },
+    { "type": "text",     "id": "flow2_tag",    "label": "Section tag",  "default": "Virtual Try-On" },
+    { "type": "text",     "id": "vto1_title",   "label": "Step 1 title", "default": "Upload one photo." },
+    { "type": "textarea", "id": "vto1_body",    "label": "Step 1 body",  "default": "Stand facing the camera — full body in frame. Our visual AI handles everything else. In seconds." },
+    { "type": "text",     "id": "flow2_title",  "label": "Step 2 title", "default": "Visualize the fit." },
+    { "type": "textarea", "id": "flow2_body",   "label": "Step 2 body",  "default": "Once the size is found, shoppers upload one photo. Our visual AI generates an illustrative preview of them wearing the garment — inside your Shopify product page, before they ever add to cart." },
+    { "type": "text",     "id": "flow2_ai_tag", "label": "AI badge",     "default": "Powered by PrimeStyle Decision Engine" },
+    { "type": "image_picker", "id": "screen_photoguid", "label": "Try-On — Photo guide" },
+    { "type": "image_picker", "id": "screen_tryon",     "label": "Try-On — Result" }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Feature badge",
+      "settings": [
+        {
+          "type": "select",
+          "id": "flow",
+          "label": "Show in",
+          "options": [
+            { "value": "1",   "label": "Smart Size — Step 1" },
+            { "value": "2",   "label": "Smart Size — Step 2" },
+            { "value": "3",   "label": "Smart Size — Step 3" },
+            { "value": "vto", "label": "Virtual Try-On" }
+          ],
+          "default": "1"
+        },
+        { "type": "text", "id": "text", "label": "Badge text", "default": "Works with any Shopify size chart" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PS · SDK Demo",
+      "blocks": [
+        { "type": "badge", "settings": { "flow": "1", "text": "Works with any Shopify size chart" } },
+        { "type": "badge", "settings": { "flow": "1", "text": "Separate flows for men and women" } },
+        { "type": "badge", "settings": { "flow": "1", "text": "Reduced guesswork — matched to your Shopify catalog" } },
+        { "type": "badge", "settings": { "flow": "2", "text": "Illustrated options — designed to reduce guesswork" } },
+        { "type": "badge", "settings": { "flow": "2", "text": "Works for menswear and womenswear" } },
+        { "type": "badge", "settings": { "flow": "3", "text": "One clear recommendation per item" } },
+        { "type": "badge", "settings": { "flow": "3", "text": "Matched to your Shopify catalog, not industry averages" } },
+        { "type": "badge", "settings": { "flow": "vto", "text": "One photo — results in seconds" } },
+        { "type": "badge", "settings": { "flow": "vto", "text": "Works on any Shopify product page" } },
+        { "type": "badge", "settings": { "flow": "vto", "text": "No app download required" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

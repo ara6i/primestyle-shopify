@@ -1,0 +1,91 @@
+{% comment %}
+  PS Hero — centered editorial hero matching prime-products HeroSection.
+  Eyebrow · Headline (serif italic em) · divider · subhead · CTAs · marquee.
+{% endcomment %}
+
+<section class="ps-root ps-hero">
+  <div class="ps-hero__bg" aria-hidden="true">
+    <div class="ps-hero__grid"></div>
+    <div class="ps-hero__glow ps-hero__glow--a"></div>
+    <div class="ps-hero__glow ps-hero__glow--b"></div>
+    <div class="ps-hero__glow ps-hero__glow--c"></div>
+  </div>
+
+  <div class="ps-hero__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="ps-hero__eyebrow" data-ps-reveal="fade">
+        <span class="ps-eyebrow">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.39 6.45L21 11l-6.61 2.55L12 20l-2.39-6.45L3 11l6.61-2.55z"/></svg>
+          {{ section.settings.eyebrow }}
+        </span>
+      </div>
+    {%- endif -%}
+
+    <h1 class="ps-hero__title" data-ps-reveal>
+      {{ section.settings.headline }}
+    </h1>
+
+    <div class="ps-hero__divider" data-ps-reveal data-ps-delay="1" aria-hidden="true"></div>
+
+    {%- if section.settings.subhead != blank -%}
+      <p class="ps-hero__subtitle" data-ps-reveal data-ps-delay="1">
+        {{ section.settings.subhead }}
+      </p>
+    {%- endif -%}
+
+    <div class="ps-hero__cta" data-ps-reveal data-ps-delay="2">
+      {%- if section.settings.primary_label != blank -%}
+        {%- render 'ps-button',
+          label: section.settings.primary_label,
+          href: section.settings.primary_link,
+          variant: 'primary',
+          size: 'xl',
+          icon: 'arrow-right'
+        -%}
+      {%- endif -%}
+      {%- if section.settings.secondary_label != blank -%}
+        {%- render 'ps-button',
+          label: section.settings.secondary_label,
+          href: section.settings.secondary_link,
+          variant: 'outline',
+          size: 'xl'
+        -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.marquee_text != blank -%}
+    <div class="ps-marquee" aria-hidden="true">
+      <div class="ps-marquee__track">
+        {%- assign marquee_items = section.settings.marquee_text | split: '·' -%}
+        {%- for i in (1..2) -%}
+          <div class="ps-marquee__group">
+            {%- for item in marquee_items -%}
+              <span class="ps-marquee__item">{{ item | strip }}</span>
+              <span class="ps-marquee__sep"></span>
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "PS · Hero",
+  "tag": "section",
+  "class": "ps-section",
+  "settings": [
+    { "type": "text",         "id": "eyebrow",         "label": "Eyebrow",         "default": "Shopify · Fashion" },
+    { "type": "richtext",     "id": "headline",         "label": "Headline",        "default": "<p>The <em>Decision Engine</em> for fit.</p>" },
+    { "type": "textarea",     "id": "subhead",          "label": "Subhead",         "default": "Photo-based sizing · Virtual try-on · Trained on your size guide." },
+    { "type": "text",         "id": "primary_label",    "label": "Primary CTA",     "default": "Install on Shopify" },
+    { "type": "url",          "id": "primary_link",     "label": "Primary link" },
+    { "type": "text",         "id": "secondary_label",  "label": "Secondary CTA",   "default": "See it in action" },
+    { "type": "url",          "id": "secondary_link",   "label": "Secondary link" },
+    { "type": "textarea",     "id": "marquee_text",     "label": "Marquee items (· separated)", "default": "T-Shirts · Dresses · Suits · Tuxedos · Jeans · Blouses · Jackets · Coats · Activewear · Swimwear · Skirts · Formal Wear · Plus Size" }
+  ],
+  "presets": [{ "name": "PS · Hero" }]
+}
+{% endschema %}

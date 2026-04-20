@@ -1,0 +1,60 @@
+{% comment %}
+  PS-DEMO-PRODUCT — Single product detail page for the SDK demo
+  Reads ?id= from the URL and fetches from the backend API.
+  3-column sticky layout: [info | images | purchase panel]
+{% endcomment %}
+
+{{ 'ps-demo.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} Load the PrimeStyle SDK web component {%- endcomment -%}
+<link rel="stylesheet" href="{{ 'primestyle-tryon.css' | asset_url }}">
+<script type="module" src="{{ 'primestyle-tryon.js' | asset_url }}"></script>
+
+<div class="ps-demo-page" id="ps-demo-product-page">
+
+  {%- comment -%} Sticky back nav {%- endcomment -%}
+  <nav class="ps-detail-nav" id="ps-detail-nav">
+    <a href="/pages/demo-products" class="ps-detail-nav__back" id="ps-detail-back">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </a>
+  </nav>
+
+  {%- comment -%} Main content (populated by JS) {%- endcomment -%}
+  <div id="ps-detail-content">
+    <div class="ps-detail-skeleton">Loading product…</div>
+  </div>
+
+  {%- comment -%} Size Guide Modal {%- endcomment -%}
+  <div id="ps-sgm" class="ps-sgm-overlay" hidden aria-modal="true" role="dialog">
+    <div class="ps-sgm-dialog" id="ps-sgm-dialog">
+      {%- comment -%} Populated by JS {%- endcomment -%}
+    </div>
+  </div>
+
+</div>
+
+<script>
+  window.__psDemoApiBase  = 'http://localhost:4000';
+  window.__psDemoPsApiKey = 'ps_live_f2adca71e67671faf7517e66f328de72ff1a595bc45f578ec0ed7a2526e9ea0c';
+</script>
+<script src="{{ 'ps-demo-product.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "PS Demo Product",
+  "settings": [
+    {
+      "type": "text",
+      "id": "api_base",
+      "label": "Backend API base URL",
+      "default": "http://localhost:4000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PS Demo Product"
+    }
+  ]
+}
+{% endschema %}

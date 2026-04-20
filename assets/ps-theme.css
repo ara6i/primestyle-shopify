@@ -1,0 +1,545 @@
+/* ================================================================
+   PS-THEME.CSS — Design Tokens + Base + Animations
+   PrimeStyle Shopify Theme — Dark Luxury-Tech Editorial
+   ================================================================ */
+
+/* ── Fonts ─────────────────────────────────────── */
+:root {
+  --ps-font-display: 'Poppins', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ps-font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ps-font-serif: 'Poppins', 'Manrope', sans-serif;
+  --ps-font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ── Brand Colors ──────────────────────────────── */
+:root {
+  --ps-brand: #2154EF;
+  --ps-brand-light: #BED6FF;
+  --ps-brand-pale: #DAE7FF;
+  --ps-brand-dark: #193EDC;
+  --ps-brand-glow: rgba(33, 84, 239, 0.15);
+  --ps-accent: #6035F2;
+  --ps-accent-light: #D6D5FF;
+  --ps-accent-glow: rgba(96, 53, 242, 0.12);
+}
+
+/* ── Surface Colors ────────────────────────────── */
+:root {
+  --ps-bg: #FFFFFF;
+  --ps-bg-raised: #F6F6F6;
+  --ps-bg-card: #FFFFFF;
+  --ps-bg-card-hover: #F9F9FB;
+  --ps-bg-glass: rgba(255, 255, 255, 0.75);
+  --ps-bg-glass-hover: rgba(255, 255, 255, 0.9);
+  --ps-bg-section-alt: #F5F6F8;
+  --ps-bg-input: rgba(140, 140, 140, 0.05);
+  --ps-bg-overlay: rgba(0, 0, 0, 0.5);
+}
+
+/* ── Text Colors ───────────────────────────────── */
+:root {
+  --ps-text: #1C1D1E;
+  --ps-text-secondary: #454545;
+  --ps-text-muted: #84898C;
+  --ps-text-hint: #B0B0B0;
+  --ps-text-inverse: #FFFFFF;
+}
+
+/* ── Border Colors ─────────────────────────────── */
+:root {
+  --ps-border: #E7E7E7;
+  --ps-border-hover: #CFCFD2;
+  --ps-border-active: rgba(33, 84, 239, 0.4);
+  --ps-border-glass: rgba(0, 0, 0, 0.06);
+}
+
+/* ── Status Colors ─────────────────────────────── */
+:root {
+  --ps-success: #34D399;
+  --ps-warning: #FBBF24;
+  --ps-error: #F87171;
+  --ps-info: #60A5FA;
+  --ps-sale: #FF6B35;
+}
+
+/* ── Typography Scale (fluid) ──────────────────── */
+:root {
+  --ps-text-xs: clamp(0.6875rem, 0.65rem + 0.15vw, 0.75rem);
+  --ps-text-sm: clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem);
+  --ps-text-base: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+  --ps-text-md: clamp(1.0625rem, 1rem + 0.25vw, 1.125rem);
+  --ps-text-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+  --ps-text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --ps-text-2xl: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+  --ps-text-3xl: clamp(1.875rem, 1.5rem + 1.5vw, 2.75rem);
+  --ps-text-4xl: clamp(2.25rem, 1.8rem + 2vw, 3.5rem);
+  --ps-text-5xl: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+  --ps-text-hero: clamp(3rem, 2rem + 4.5vw, 6rem);
+}
+
+/* ── Spacing Scale ─────────────────────────────── */
+:root {
+  --ps-space-1: 0.25rem;
+  --ps-space-2: 0.5rem;
+  --ps-space-3: 0.75rem;
+  --ps-space-4: 1rem;
+  --ps-space-5: 1.25rem;
+  --ps-space-6: 1.5rem;
+  --ps-space-8: 2rem;
+  --ps-space-10: 2.5rem;
+  --ps-space-12: 3rem;
+  --ps-space-16: 4rem;
+  --ps-space-20: 5rem;
+  --ps-space-24: 6rem;
+  --ps-space-32: 8rem;
+  --ps-section-py: clamp(4rem, 6vw, 7.5rem);
+}
+
+/* ── Layout ────────────────────────────────────── */
+:root {
+  --ps-page-max: 1600px;
+  --ps-content-max: 1200px;
+  --ps-narrow-max: 880px;
+  --ps-gutter: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+/* ── Radius ────────────────────────────────────── */
+:root {
+  --ps-radius-xs: 4px;
+  --ps-radius-sm: 6px;
+  --ps-radius-md: 10px;
+  --ps-radius-lg: 14px;
+  --ps-radius-xl: 20px;
+  --ps-radius-2xl: 28px;
+  --ps-radius-pill: 9999px;
+}
+
+/* ── Motion ────────────────────────────────────── */
+:root {
+  --ps-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ps-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ps-ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ps-duration-fast: 150ms;
+  --ps-duration: 250ms;
+  --ps-duration-slow: 400ms;
+  --ps-duration-slower: 600ms;
+  --ps-duration-cinematic: 1s;
+  --ps-reveal-duration: 1.1s;
+  --ps-reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Shadows ───────────────────────────────────── */
+:root {
+  --ps-shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --ps-shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --ps-shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
+  --ps-shadow-xl: 0 24px 64px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.08);
+  --ps-shadow-glow: 0 0 40px var(--ps-brand-glow), 0 0 80px rgba(33, 84, 239, 0.08);
+  --ps-shadow-glow-accent: 0 0 40px var(--ps-accent-glow), 0 0 80px rgba(96, 53, 242, 0.06);
+}
+
+/* ================================================================
+   DAWN NEUTRALIZATION
+   base.css loads before this file. These rules kill Dawn's visual
+   layer so PrimeStyle is the only thing that paints the page.
+   Dawn's functional CSS (cart, search, a11y) is left untouched.
+   ================================================================ */
+
+/* Kill Dawn's .gradient overlay that paints a fixed white bg */
+.gradient {
+  background: none;
+  background-attachment: initial;
+}
+
+/* Kill Dawn's heading styles — font-family, sizes, letter-spacing, color */
+h1, h2, h3, h4, h5, h6,
+.h0, .h1, .h2, .h3, .h4, .h5, .h6,
+.hxl, .hxxl {
+  font-family: var(--ps-font-display);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--ps-text);
+  line-height: 1.1;
+  word-break: normal;
+}
+
+/* Kill Dawn's blockquote styles */
+blockquote {
+  font-style: normal;
+  color: var(--ps-text);
+  border-left: none;
+  padding-left: 0;
+}
+
+/* ================================================================
+   BASE STYLES
+   ================================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-columns: 100%;
+  min-height: 100%;
+  margin: 0;
+  font-family: var(--ps-font-body);
+  font-size: var(--ps-text-base);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.65;
+  letter-spacing: normal;
+  color: var(--ps-text);
+  background-color: var(--ps-bg);
+  overflow-x: hidden;
+}
+
+.ps-root {
+  color: var(--ps-text);
+  font-family: var(--ps-font-body);
+}
+
+/* ── Headings ──────────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6,
+.ps-h1, .ps-h2, .ps-h3, .ps-h4, .ps-h5, .ps-h6 {
+  font-family: var(--ps-font-display);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ps-text);
+  margin: 0;
+}
+
+h1, .ps-h1 { font-size: var(--ps-text-hero); line-height: 1.05; letter-spacing: -0.03em; }
+h2, .ps-h2 { font-size: var(--ps-text-4xl); }
+h3, .ps-h3 { font-size: var(--ps-text-3xl); }
+h4, .ps-h4 { font-size: var(--ps-text-2xl); }
+h5, .ps-h5 { font-size: var(--ps-text-xl); }
+h6, .ps-h6 { font-size: var(--ps-text-lg); }
+
+/* Richtext <p> tags inside headings must inherit the heading's style.
+   Shopify's richtext editor wraps ALL text in <p> tags, so without this
+   rule, h1 > p picks up the body `p` selector's small font-size and
+   secondary color, collapsing the headline into garbled overlapping chars. */
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p,
+.ps-h1 p, .ps-h2 p, .ps-h3 p {
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  margin: 0;
+}
+
+/* Italic variant for Instrument Serif — editorial flair */
+h1 em, h2 em, h3 em,
+.ps-h1 em, .ps-h2 em, .ps-h3 em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ── Paragraphs ────────────────────────────────── */
+
+p {
+  color: var(--ps-text-secondary);
+  line-height: 1.7;
+  margin: 0;
+  font-size: var(--ps-text-md);
+}
+
+/* ── Links ─────────────────────────────────────── */
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--ps-duration) var(--ps-ease-smooth);
+}
+
+.ps-link {
+  color: var(--ps-brand-light);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(74, 122, 255, 0.3);
+  transition: color var(--ps-duration) var(--ps-ease-smooth),
+              text-decoration-color var(--ps-duration) var(--ps-ease-smooth);
+}
+
+.ps-link:hover {
+  color: var(--ps-text);
+  text-decoration-color: var(--ps-text);
+}
+
+/* ── Containers ────────────────────────────────── */
+
+.ps-container {
+  width: 100%;
+  max-width: var(--ps-content-max);
+  margin-inline: auto;
+  padding-inline: var(--ps-gutter);
+}
+
+.ps-container--wide {
+  max-width: var(--ps-page-max);
+}
+
+.ps-container--narrow {
+  max-width: var(--ps-narrow-max);
+}
+
+/* ── Selection ─────────────────────────────────── */
+
+::selection {
+  background: var(--ps-brand);
+  color: #fff;
+}
+
+/* ── Scrollbar ─────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ps-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ps-border-hover);
+  border-radius: var(--ps-radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ps-text-muted);
+}
+
+/* ── Noise Texture Utility ─────────────────────── */
+
+.ps-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 256px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+}
+
+/* ================================================================
+   ANIMATION KEYFRAMES
+   ================================================================ */
+
+@keyframes ps-fade-up {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ps-fade-down {
+  from { opacity: 0; transform: translateY(-32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ps-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes ps-fade-left {
+  from { opacity: 0; transform: translateX(48px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes ps-fade-right {
+  from { opacity: 0; transform: translateX(-48px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes ps-scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ps-scale-up {
+  from { opacity: 0; transform: scale(0.85) translateY(24px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes ps-blur-in {
+  from { opacity: 0; filter: blur(12px); transform: translateY(16px); }
+  to   { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+@keyframes ps-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes ps-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@keyframes ps-pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(1.08); }
+}
+
+@keyframes ps-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes ps-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes ps-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ps-line-grow {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+@keyframes ps-counter-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================================================
+   REVEAL SYSTEM
+   Content is visible by default. JS adds .ps-reveal-ready to set
+   opacity:0, then .ps-revealed triggers the animation. If JS fails,
+   content stays visible — no blank page.
+   ================================================================ */
+
+.ps-reveal-ready[data-ps-reveal] {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Default: fade up */
+.ps-revealed[data-ps-reveal] {
+  animation: ps-fade-up var(--ps-reveal-duration) var(--ps-reveal-ease) forwards;
+}
+
+/* Directional variants */
+.ps-revealed[data-ps-reveal="fade-down"] {
+  animation-name: ps-fade-down;
+}
+
+.ps-revealed[data-ps-reveal="fade-left"] {
+  animation-name: ps-fade-left;
+}
+
+.ps-revealed[data-ps-reveal="fade-right"] {
+  animation-name: ps-fade-right;
+}
+
+.ps-revealed[data-ps-reveal="fade-in"],
+.ps-revealed[data-ps-reveal="fade"] {
+  animation-name: ps-fade-in;
+}
+
+.ps-revealed[data-ps-reveal="scale-in"] {
+  animation-name: ps-scale-in;
+}
+
+.ps-revealed[data-ps-reveal="scale-up"] {
+  animation-name: ps-scale-up;
+}
+
+.ps-revealed[data-ps-reveal="blur-in"] {
+  animation-name: ps-blur-in;
+}
+
+/* Stagger delay support */
+.ps-revealed[data-ps-reveal][data-ps-delay="1"] { animation-delay: 0.1s; }
+.ps-revealed[data-ps-reveal][data-ps-delay="2"] { animation-delay: 0.2s; }
+.ps-revealed[data-ps-reveal][data-ps-delay="3"] { animation-delay: 0.3s; }
+.ps-revealed[data-ps-reveal][data-ps-delay="4"] { animation-delay: 0.4s; }
+.ps-revealed[data-ps-reveal][data-ps-delay="5"] { animation-delay: 0.5s; }
+.ps-revealed[data-ps-reveal][data-ps-delay="6"] { animation-delay: 0.6s; }
+.ps-revealed[data-ps-reveal][data-ps-delay="7"] { animation-delay: 0.7s; }
+.ps-revealed[data-ps-reveal][data-ps-delay="8"] { animation-delay: 0.8s; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-ps-reveal],
+  .ps-reveal-ready[data-ps-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+  }
+}
+
+/* ================================================================
+   UTILITY CLASSES
+   ================================================================ */
+
+.ps-text-gradient {
+  background: linear-gradient(135deg, var(--ps-text) 0%, var(--ps-brand-light) 50%, var(--ps-accent-light) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ps-text-brand {
+  color: var(--ps-brand-light);
+}
+
+.ps-text-accent {
+  color: var(--ps-accent);
+}
+
+.ps-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ps-glass {
+  background: var(--ps-bg-glass);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid var(--ps-border-glass);
+}
+
+.ps-glass:hover {
+  background: var(--ps-bg-glass-hover);
+  border-color: var(--ps-border-hover);
+}
+
+.ps-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--ps-border);
+  border: none;
+  margin: 0;
+}

@@ -2,3 +2,7 @@ MatchingTranslations:
   enabled: false
 TemplateLength:
   enabled: false
+VariableName:
+  ignore:
+    - snippets/ps-*.liquid
+    - sections/ps-*.liquid

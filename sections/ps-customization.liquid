@@ -1,0 +1,147 @@
+{% comment %}
+  PS Customization — split layout: copy + bullets on left, brand-kit visual on right.
+{% endcomment %}
+
+<section class="ps-root ps-custom">
+  <div class="ps-custom__inner">
+    <div class="ps-custom__copy" data-ps-reveal="left">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="ps-eyebrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+          {{ section.settings.eyebrow }}
+        </span>
+      {%- endif -%}
+      <h2 class="ps-custom__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.body != blank -%}
+        <p class="ps-custom__body">{{ section.settings.body }}</p>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="ps-bullets">
+          {%- for block in section.blocks -%}
+            <li class="ps-bullets__item" {{ block.shopify_attributes }}>
+              <span class="ps-bullets__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span>{{ block.settings.text }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="ps-custom__visual" data-ps-reveal="right">
+      {% comment %} Floating "Brand Kit" mockup card — concrete visual instead of empty placeholder {% endcomment %}
+      <div class="ps-brand-kit">
+        <div class="ps-brand-kit__head">
+          <div class="ps-brand-kit__head-dots" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="ps-brand-kit__head-title">Brand Settings</span>
+          <div class="ps-brand-kit__head-spacer"></div>
+        </div>
+
+        <div class="ps-brand-kit__body">
+          <div class="ps-brand-kit__row">
+            <span class="ps-brand-kit__label">Brand colors</span>
+            <div class="ps-brand-kit__swatches">
+              <span class="ps-brand-kit__swatch" style="background:#2154EF" title="Primary"></span>
+              <span class="ps-brand-kit__swatch" style="background:#6035F2" title="Accent"></span>
+              <span class="ps-brand-kit__swatch" style="background:#1C1D1E" title="Text"></span>
+              <span class="ps-brand-kit__swatch" style="background:#EFF5FF" title="Surface"></span>
+              <span class="ps-brand-kit__swatch ps-brand-kit__swatch--add" aria-hidden="true">+</span>
+            </div>
+          </div>
+
+          <div class="ps-brand-kit__row">
+            <span class="ps-brand-kit__label">Typography</span>
+            <div class="ps-brand-kit__type">
+              <span class="ps-brand-kit__type-aa">Aa</span>
+              <div class="ps-brand-kit__type-meta">
+                <span class="ps-brand-kit__type-name">Manrope</span>
+                <span class="ps-brand-kit__type-weights">400 · 500 · 600 · 700</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ps-brand-kit__row">
+            <span class="ps-brand-kit__label">Button style</span>
+            <div class="ps-brand-kit__buttons">
+              <span class="ps-brand-kit__btn ps-brand-kit__btn--solid">Try It On</span>
+              <span class="ps-brand-kit__btn ps-brand-kit__btn--outline">Find size</span>
+            </div>
+          </div>
+
+          <div class="ps-brand-kit__row">
+            <span class="ps-brand-kit__label">Corner radius</span>
+            <div class="ps-brand-kit__radius">
+              <span class="ps-brand-kit__radius-opt"></span>
+              <span class="ps-brand-kit__radius-opt ps-brand-kit__radius-opt--md"></span>
+              <span class="ps-brand-kit__radius-opt ps-brand-kit__radius-opt--full ps-brand-kit__radius-opt--active"></span>
+            </div>
+          </div>
+
+          <div class="ps-brand-kit__row ps-brand-kit__row--full">
+            <span class="ps-brand-kit__label">Live preview</span>
+            <div class="ps-brand-kit__preview">
+              <div class="ps-brand-kit__preview-tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.39 6.45L21 11l-6.61 2.55L12 20l-2.39-6.45L3 11l6.61-2.55z"/></svg>
+                Try it on
+              </div>
+              <div class="ps-brand-kit__preview-line ps-brand-kit__preview-line--lg"></div>
+              <div class="ps-brand-kit__preview-line"></div>
+              <div class="ps-brand-kit__preview-line ps-brand-kit__preview-line--sm"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Floating chips that orbit the kit card {% endcomment %}
+      <div class="ps-custom__chip ps-custom__chip--a" aria-hidden="true">
+        <span class="ps-custom__chip-dot" style="background:#2154EF"></span>
+        Brand color
+      </div>
+      <div class="ps-custom__chip ps-custom__chip--b" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        Typography
+      </div>
+      <div class="ps-custom__chip ps-custom__chip--c" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/></svg>
+        Layout
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Customization",
+  "tag": "section",
+  "class": "ps-section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text",     "id": "eyebrow", "label": "Eyebrow", "default": "Customization" },
+    { "type": "text",     "id": "title",   "label": "Title",   "default": "Your brand. Completely." },
+    { "type": "textarea", "id": "body",    "label": "Body",    "default": "PrimeStyle AI doesn't look like a plugin. Every element adapts to your brand identity — colors, typography, widget style, button placement, and the entire user flow." }
+  ],
+  "blocks": [
+    {
+      "type": "bullet",
+      "name": "Bullet",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Brand color & typography matching" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "PS · Customization",
+    "blocks": [
+      { "type": "bullet", "settings": { "text": "Brand color & typography matching" } },
+      { "type": "bullet", "settings": { "text": "Configurable widget placement" } },
+      { "type": "bullet", "settings": { "text": "Per-product sizing method selection" } },
+      { "type": "bullet", "settings": { "text": "Custom-branded try-on experience" } },
+      { "type": "bullet", "settings": { "text": "Responsive layouts — any screen" } }
+    ]
+  }]
+}
+{% endschema %}

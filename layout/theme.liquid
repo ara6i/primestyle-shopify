@@ -9,11 +9,20 @@
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
+    {%- else -%}
+      <link rel="icon" type="image/png" href="{{ 'ps-favicon.png' | asset_url }}">
+      <link rel="apple-touch-icon" href="{{ 'ps-favicon.png' | asset_url }}">
     {%- endif -%}
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
+
+    {%- comment -%} PrimeStyle — preconnect Google Fonts early {%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <title>
       {{ page_title }}
@@ -94,10 +103,7 @@
       }
       {% endfor %}
 
-      {{ scheme_classes | prepend: 'body' }} {
-        color: rgba(var(--color-foreground), 0.75);
-        background-color: rgb(var(--color-background));
-      }
+      {%- comment -%} Dawn body color/bg rule removed — PrimeStyle controls these via ps-theme.css {%- endcomment -%}
 
       :root {
         --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
@@ -222,37 +228,7 @@
         --variant-pills-shadow-blur-radius: {{ settings.variant_pills_shadow_blur }}px;
       }
 
-      *,
-      *::before,
-      *::after {
-        box-sizing: inherit;
-      }
-
-      html {
-        box-sizing: border-box;
-        font-size: calc(var(--font-body-scale) * 62.5%);
-        height: 100%;
-      }
-
-      body {
-        display: grid;
-        grid-template-rows: auto auto 1fr auto;
-        grid-template-columns: 100%;
-        min-height: 100%;
-        margin: 0;
-        font-size: 1.5rem;
-        letter-spacing: 0.06rem;
-        line-height: calc(1 + 0.8 / var(--font-body-scale));
-        font-family: var(--font-body-family);
-        font-style: var(--font-body-style);
-        font-weight: var(--font-body-weight);
-      }
-
-      @media screen and (min-width: 750px) {
-        body {
-          font-size: 1.6rem;
-        }
-      }
+      {%- comment -%} Dawn box-sizing, html font-size, and body rules removed — PrimeStyle controls these via ps-theme.css {%- endcomment -%}
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
@@ -291,6 +267,15 @@
       >
     {%- endif -%}
 
+    {%- comment -%} PrimeStyle — loads AFTER Dawn so custom styles always win {%- endcomment -%}
+    {{ 'ps-theme.css' | asset_url | stylesheet_tag }}
+    {{ 'ps-components.css' | asset_url | stylesheet_tag }}
+    {{ 'ps-sections.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'ps-scroll-reveal.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'ps-product-gallery.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'ps-tabs.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'ps-header.js' | asset_url }}" defer="defer"></script>
+
     <script>
       if (Shopify.designMode) {
         document.documentElement.classList.add('shopify-design-mode');
@@ -298,7 +283,7 @@
     </script>
   </head>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  <body class="{% if settings.animations_hover_elements != 'none' %}animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>

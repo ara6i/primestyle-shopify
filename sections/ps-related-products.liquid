@@ -1,0 +1,53 @@
+{% comment %}
+  PrimeStyle Related Products — uses Shopify recommendations object.
+{% endcomment %}
+
+<section class="ps-root ps-related" data-ps-stagger>
+  <product-recommendations
+    class="ps-related__inner"
+    data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_to_show }}"
+  >
+    {%- if recommendations.performed and recommendations.products_count > 0 -%}
+      {%- render 'ps-section-heading',
+        eyebrow: section.settings.eyebrow,
+        title: section.settings.title
+      -%}
+      <div class="ps-related__grid">
+        {%- for product in recommendations.products -%}
+          {%- render 'ps-card-product',
+            card_product: product,
+            show_secondary_image: true,
+            show_tryon_badge: section.settings.show_tryon_badge,
+            show_vendor: false,
+            media_aspect: 'portrait'
+          -%}
+        {%- endfor -%}
+      </div>
+    {%- elsif recommendations.performed == false -%}
+      {%- render 'ps-section-heading',
+        eyebrow: section.settings.eyebrow,
+        title: section.settings.title
+      -%}
+      <div class="ps-related__grid ps-related__grid--loading">
+        {%- for i in (1..4) -%}
+          {%- render 'ps-card-product', card_product: blank, media_aspect: 'portrait' -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </product-recommendations>
+</section>
+
+{% schema %}
+{
+  "name": "PS · Related products",
+  "tag": "section",
+  "class": "ps-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "More to try on" },
+    { "type": "text", "id": "title", "label": "Headline", "default": "You may also like" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 4, "max": 12, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_tryon_badge", "label": "Show Try-On badge", "default": true }
+  ],
+  "presets": [{ "name": "PS · Related products" }]
+}
+{% endschema %}

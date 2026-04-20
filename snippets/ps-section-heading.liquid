@@ -1,0 +1,36 @@
+{% comment %}
+  PrimeStyle section heading — eyebrow + headline + subhead.
+
+  Accepts:
+  - eyebrow:   small uppercase label above title (optional)
+  - title:     headline (required)
+  - subtitle:  body text below title (optional)
+  - align:     center | left   (default: center)
+  - tag:       h2 | h3        (default: h2)
+{% endcomment %}
+
+{%- liquid
+  assign _align = align | default: 'center'
+  assign _tag = tag | default: 'h2'
+  assign _classes = 'ps-section-heading'
+  if _align == 'left'
+    assign _classes = _classes | append: ' ps-section-heading--left'
+  endif
+-%}
+
+<div class="{{ _classes }}" data-ps-reveal="fade">
+  {%- if eyebrow -%}
+    <span class="ps-eyebrow">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.39 6.45L21 11l-6.61 2.55L12 20l-2.39-6.45L3 11l6.61-2.55z"/></svg>
+      {{ eyebrow }}
+    </span>
+  {%- endif -%}
+  {%- if _tag == 'h3' -%}
+    <h3 class="ps-section-heading__title">{{ title }}</h3>
+  {%- else -%}
+    <h2 class="ps-section-heading__title">{{ title }}</h2>
+  {%- endif -%}
+  {%- if subtitle -%}
+    <p class="ps-section-heading__subtitle">{{ subtitle }}</p>
+  {%- endif -%}
+</div>

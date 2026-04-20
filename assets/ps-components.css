@@ -1,0 +1,576 @@
+/* ================================================================
+   PS-COMPONENTS.CSS — Buttons, Cards, Badges, Inputs
+   PrimeStyle Shopify Theme — Dark Luxury-Tech Editorial
+   ================================================================ */
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+
+.ps-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  font-family: var(--ps-font-body);
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background var(--ps-duration) var(--ps-ease-smooth),
+    color var(--ps-duration) var(--ps-ease-smooth),
+    box-shadow var(--ps-duration-slow) var(--ps-ease-smooth),
+    transform var(--ps-duration) var(--ps-ease-spring);
+}
+
+.ps-btn:active {
+  transform: scale(0.97);
+}
+
+/* Sizes — all fully rounded pills, matching prime-products */
+.ps-btn { border-radius: 9999px; }
+
+.ps-btn--sm {
+  font-size: 0.8125rem;
+  padding: 0.5rem 1rem;
+  height: 2.25rem;
+}
+
+.ps-btn--md, .ps-btn:not([class*="ps-btn--"]) {
+  font-size: 0.875rem;
+  padding: 0 1.25rem;
+  height: 2.75rem;
+}
+
+.ps-btn--lg {
+  font-size: 0.95rem;
+  padding: 0 1.5rem;
+  height: 3rem;
+}
+
+.ps-btn--xl {
+  font-size: 1rem;
+  padding: 0 1.75rem;
+  height: 3.375rem;
+}
+
+.ps-btn--block {
+  width: 100%;
+}
+
+/* Variants */
+
+/* Primary */
+.ps-btn--primary {
+  background: var(--ps-brand);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(33, 84, 239, 0.3);
+}
+
+.ps-btn--primary:hover {
+  background: var(--ps-brand-light);
+  box-shadow: var(--ps-shadow-glow);
+  transform: translateY(-1px);
+}
+
+/* Outline */
+.ps-btn--outline {
+  background: transparent;
+  color: var(--ps-text);
+  border: 1px solid var(--ps-border-hover);
+}
+
+.ps-btn--outline:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--ps-text-muted);
+  transform: translateY(-1px);
+}
+
+/* Ghost */
+.ps-btn--ghost {
+  background: transparent;
+  color: var(--ps-text-secondary);
+  padding-inline: 0.75rem;
+}
+
+.ps-btn--ghost:hover {
+  color: var(--ps-text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* White (for use on gradient/dark backgrounds) */
+.ps-btn--white {
+  background: #fff;
+  color: var(--ps-brand-dark, #193EDC);
+}
+
+.ps-btn--white:hover {
+  background: #fff;
+  color: var(--ps-brand, #2154EF);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Tunal (glass) */
+.ps-btn--tunal {
+  background: var(--ps-bg-glass);
+  color: var(--ps-text);
+  border: 1px solid var(--ps-border-glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.ps-btn--tunal:hover {
+  background: var(--ps-bg-glass-hover);
+  border-color: var(--ps-border-hover);
+}
+
+/* Link */
+.ps-btn--link {
+  background: none;
+  color: var(--ps-brand-light);
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ps-btn--link:hover {
+  color: var(--ps-text);
+}
+
+/* Icon */
+.ps-btn__icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+.ps-btn__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ================================================================
+   BADGES
+   ================================================================ */
+
+.ps-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: var(--ps-font-body);
+  font-size: var(--ps-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3em 0.7em;
+  border-radius: var(--ps-radius-pill);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.ps-badge--brand {
+  background: rgba(33, 84, 239, 0.15);
+  color: var(--ps-brand-light);
+  border: 1px solid rgba(33, 84, 239, 0.25);
+}
+
+.ps-badge--soft {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ps-text-secondary);
+  border: 1px solid var(--ps-border);
+}
+
+.ps-badge--success {
+  background: rgba(52, 211, 153, 0.12);
+  color: var(--ps-success);
+}
+
+.ps-badge--sale {
+  background: rgba(255, 107, 53, 0.15);
+  color: var(--ps-accent);
+}
+
+.ps-badge--sold-out {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ps-text-muted);
+}
+
+.ps-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ================================================================
+   EYEBROW
+   ================================================================ */
+
+.ps-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--ps-font-body);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ps-brand-dark, #193EDC);
+  padding: 6px 12px;
+  background: color-mix(in srgb, var(--ps-brand-pale, #DAE7FF) 50%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ps-brand, #2154EF) 20%, transparent);
+  border-radius: 9999px;
+  line-height: 1;
+}
+
+.ps-eyebrow svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* ================================================================
+   CARDS
+   ================================================================ */
+
+.ps-card {
+  background: var(--ps-bg-card);
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius-xl);
+  padding: var(--ps-space-8);
+  position: relative;
+  overflow: hidden;
+  transition:
+    background var(--ps-duration-slow) var(--ps-ease-smooth),
+    border-color var(--ps-duration-slow) var(--ps-ease-smooth),
+    box-shadow var(--ps-duration-slow) var(--ps-ease-smooth),
+    transform var(--ps-duration) var(--ps-ease-spring);
+}
+
+.ps-card--interactive:hover {
+  background: var(--ps-bg-card-hover);
+  border-color: var(--ps-border-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--ps-shadow-lg);
+}
+
+/* Glass card */
+.ps-card--glass {
+  background: var(--ps-bg-glass);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-color: var(--ps-border-glass);
+}
+
+.ps-card--glass:hover {
+  background: var(--ps-bg-glass-hover);
+  border-color: var(--ps-border-hover);
+}
+
+/* Gradient border card */
+.ps-card--gradient-border {
+  background: var(--ps-bg-card);
+  border: none;
+  position: relative;
+}
+
+.ps-card--gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(33, 84, 239, 0.3), rgba(255, 107, 53, 0.2), rgba(33, 84, 239, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity var(--ps-duration-slow) var(--ps-ease-smooth);
+}
+
+.ps-card--gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* CTA card */
+.ps-card--cta {
+  background: linear-gradient(135deg, var(--ps-brand-dark), var(--ps-brand));
+  border: none;
+  color: #fff;
+}
+
+/* Soft card */
+.ps-card--soft {
+  background: var(--ps-bg-raised);
+  border-color: transparent;
+}
+
+/* ================================================================
+   INPUTS
+   ================================================================ */
+
+.ps-input {
+  font-family: var(--ps-font-body);
+  font-size: var(--ps-text-base);
+  color: var(--ps-text);
+  background: var(--ps-bg-input);
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius-md);
+  padding: 0.75rem 1rem;
+  width: 100%;
+  outline: none;
+  transition:
+    border-color var(--ps-duration) var(--ps-ease-smooth),
+    box-shadow var(--ps-duration) var(--ps-ease-smooth);
+}
+
+.ps-input::placeholder {
+  color: var(--ps-text-hint);
+}
+
+.ps-input:focus {
+  border-color: var(--ps-brand);
+  box-shadow: 0 0 0 3px var(--ps-brand-glow);
+}
+
+.ps-select-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.ps-select-wrap select {
+  appearance: none;
+  padding-right: 2.5rem;
+}
+
+.ps-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--ps-text-muted);
+  pointer-events: none;
+}
+
+/* ================================================================
+   ACCORDION
+   ================================================================ */
+
+.ps-accordion {
+  border-bottom: 1px solid var(--ps-border);
+}
+
+.ps-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ps-space-5) 0;
+  font-family: var(--ps-font-body);
+  font-weight: 500;
+  font-size: var(--ps-text-md);
+  color: var(--ps-text);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  transition: color var(--ps-duration) var(--ps-ease-smooth);
+}
+
+.ps-accordion summary::-webkit-details-marker { display: none; }
+
+.ps-accordion summary::after {
+  content: '+';
+  font-size: 1.4em;
+  font-weight: 300;
+  color: var(--ps-text-muted);
+  transition: transform var(--ps-duration-slow) var(--ps-ease-out);
+}
+
+.ps-accordion[open] summary::after {
+  content: '\00d7';
+  transform: rotate(90deg);
+}
+
+.ps-accordion summary:hover {
+  color: var(--ps-brand-light);
+}
+
+.ps-accordion__body {
+  padding-bottom: var(--ps-space-6);
+  color: var(--ps-text-secondary);
+  font-size: var(--ps-text-base);
+  line-height: 1.7;
+}
+
+/* ================================================================
+   SECTION HEADING
+   ================================================================ */
+
+.ps-section-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ps-space-4);
+  text-align: center;
+  max-width: 720px;
+  margin-inline: auto;
+  margin-bottom: var(--ps-space-16);
+}
+
+.ps-section-heading--left {
+  align-items: flex-start;
+  text-align: left;
+  margin-inline: 0;
+}
+
+.ps-section-heading__title {
+  font-family: var(--ps-font-display);
+  font-size: var(--ps-text-4xl);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ps-text);
+}
+
+.ps-section-heading__subtitle {
+  color: var(--ps-text-secondary);
+  font-size: var(--ps-text-lg);
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+/* ================================================================
+   PLACEHOLDER
+   ================================================================ */
+
+.ps-placeholder {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ps-space-3);
+  background: var(--ps-bg-raised);
+  border: 1px dashed var(--ps-border-hover);
+  border-radius: var(--ps-radius-xl);
+  padding: var(--ps-space-8);
+  text-align: center;
+  overflow: hidden;
+}
+
+.ps-placeholder--16-9 { aspect-ratio: 16/9; }
+.ps-placeholder--4-3 { aspect-ratio: 4/3; }
+.ps-placeholder--1-1 { aspect-ratio: 1/1; }
+.ps-placeholder--3-4 { aspect-ratio: 3/4; }
+.ps-placeholder--4-5 { aspect-ratio: 4/5; }
+
+.ps-placeholder__icon {
+  width: 40px;
+  height: 40px;
+  color: var(--ps-text-hint);
+}
+
+.ps-placeholder__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.ps-placeholder__label {
+  font-size: var(--ps-text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ps-text-muted);
+}
+
+.ps-placeholder__hint {
+  font-size: var(--ps-text-xs);
+  color: var(--ps-text-hint);
+}
+
+/* Filled mode */
+.ps-placeholder--filled {
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.ps-placeholder--filled img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--ps-radius-xl);
+}
+
+/* ================================================================
+   CHECKBOX
+   ================================================================ */
+
+.ps-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--ps-space-3);
+  cursor: pointer;
+  font-size: var(--ps-text-base);
+  color: var(--ps-text-secondary);
+  user-select: none;
+}
+
+.ps-checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--ps-border-hover);
+  border-radius: var(--ps-radius-xs);
+  background: var(--ps-bg-input);
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  transition:
+    background var(--ps-duration-fast) var(--ps-ease-smooth),
+    border-color var(--ps-duration-fast) var(--ps-ease-smooth);
+}
+
+.ps-checkbox input[type="checkbox"]:checked {
+  background: var(--ps-brand);
+  border-color: var(--ps-brand);
+}
+
+.ps-checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.ps-checkbox input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--ps-brand);
+  outline-offset: 2px;
+}
