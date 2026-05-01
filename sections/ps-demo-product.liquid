@@ -35,8 +35,14 @@
 </div>
 
 <script>
+  // Catalog data: read directly from backend (public, rate-limited).
+  // Override via section setting; default to live backend.
   window.__psDemoApiBase  = '{{ section.settings.api_base | default: "https://myaifitting.com" }}';
-  window.__psDemoPsApiKey = 'ps_live_f2adca71e67671faf7517e66f328de72ff1a595bc45f578ec0ed7a2526e9ea0c';
+
+  // SDK widget API: routes through Shopify App Proxy. Shopify HMAC-signs
+  // every request, so no API key is needed in the browser. Requires the
+  // PrimeStyle app to be installed on this store (it is on myaifitting).
+  window.__psSdkProxyUrl  = '{{ shop.url }}/apps/primestyle';
 </script>
 <script src="{{ 'ps-demo-product.js' | asset_url }}" defer></script>
 

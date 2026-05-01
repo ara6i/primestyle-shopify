@@ -6,8 +6,8 @@
 (function () {
   'use strict';
 
-  var API_BASE   = window.__psDemoApiBase  || 'http://localhost:4000';
-  var PS_API_KEY = window.__psDemoPsApiKey || '';
+  var API_BASE   = window.__psDemoApiBase  || 'https://myaifitting.com';
+  var SDK_PROXY  = window.__psSdkProxyUrl  || '';
   var DEMO_BRAND = 'PrimeStyleAI';
   var LIST_URL   = '/pages/demo-products';
 
@@ -359,10 +359,12 @@
       boxShadow:            '0 4px 20px rgba(33,84,239,.2)',
     });
 
+    // Prefer the App Proxy URL — Shopify HMAC-signs requests, no key
+    // needed. Fall back to direct backend URL only if proxy is missing.
+    var sdkUrl = SDK_PROXY || API_BASE;
     return '<div class="ps-detail-sdk-wrap">' +
       '<primestyle-tryon' +
-      ' api-url="' + esc(API_BASE) + '"' +
-      (PS_API_KEY ? ' api-key="' + esc(PS_API_KEY) + '"' : '') +
+      ' api-url="' + esc(sdkUrl) + '"' +
       ' product-image="' + esc(img) + '"' +
       ' button-text="Find Your Size"' +
       ' locale="en"' +
