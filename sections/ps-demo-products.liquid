@@ -58,6 +58,7 @@
 </div>
 
 <script>
+  window.__psDemoApiBase = '{{ section.settings.api_base | default: "https://myaifitting.com" }}';
   window.__psDemoProductsDetailUrl = '/pages/{{ section.settings.detail_page_handle | default: "demo-product" }}';
 </script>
 <script src="{{ 'ps-demo-products.js' | asset_url }}" defer></script>
@@ -70,7 +71,7 @@
       "type": "text",
       "id": "api_base",
       "label": "Backend API base URL",
-      "default": "http://localhost:4000"
+      "default": "https://myaifitting.com"
     },
     {
       "type": "text",

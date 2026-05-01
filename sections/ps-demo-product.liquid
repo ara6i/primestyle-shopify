@@ -35,7 +35,7 @@
 </div>
 
 <script>
-  window.__psDemoApiBase  = 'http://localhost:4000';
+  window.__psDemoApiBase  = '{{ section.settings.api_base | default: "https://myaifitting.com" }}';
   window.__psDemoPsApiKey = 'ps_live_f2adca71e67671faf7517e66f328de72ff1a595bc45f578ec0ed7a2526e9ea0c';
 </script>
 <script src="{{ 'ps-demo-product.js' | asset_url }}" defer></script>
@@ -48,7 +48,7 @@
       "type": "text",
       "id": "api_base",
       "label": "Backend API base URL",
-      "default": "http://localhost:4000"
+      "default": "https://myaifitting.com"
     }
   ],
   "presets": [

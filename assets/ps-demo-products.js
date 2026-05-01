@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  var API_BASE    = 'http://localhost:4000';
+  var API_BASE    = (typeof window !== 'undefined' && window.__psDemoApiBase) || 'https://myaifitting.com';
   var DETAIL_BASE = '/pages/demo-product';
 
   // ── Helpers ──────────────────────────────────────────────
